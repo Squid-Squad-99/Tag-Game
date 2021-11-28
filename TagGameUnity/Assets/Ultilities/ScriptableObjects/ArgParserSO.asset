@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f0a2367259699478460b317f67ccc2, type: 3}
   m_Name: ArgParserSO
   m_EditorClassIdentifier: 
-  AddArgList: []
-  EditorModeArgs: []
+  description: 
+  AddArgList:
+  - name_or_flag: network
+  EditorModeArgs:
+  - server
