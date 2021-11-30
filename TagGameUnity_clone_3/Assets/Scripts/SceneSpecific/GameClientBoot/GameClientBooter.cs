@@ -27,10 +27,6 @@ public class GameClientBooter : MonoBehaviour
 
         // connect to server (start network client)
         NetworkManager.Singleton.StartClient();
-        
-        // set scene sync mode for client
-        Debug.Log(NetworkManager.Singleton.SceneManager);
-        NetworkManager.Singleton.SceneManager.SetClientSynchronizationMode(LoadSceneMode.Additive);
 
     }
 }
