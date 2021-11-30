@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,52 +19,54 @@ namespace Tag.UserStuff{
     {
         [TextArea] public string Description;
 
-        public bool HaveCached {get => cachedUserCredentials.HaveCached;}
-        public string UserName {get => cachedUserCredentials.UserName;}
-        public string Password {get => cachedUserCredentials.Password;}
-
         [Header("Attributes")]
+        [SerializeField] bool _haveCached;
+        public bool HaveCached {get => _haveCached;}
+        public string UserName {get => cachedUserCredentials._userName;}
+        public string Password {get => cachedUserCredentials._password;}
+
         [SerializeField] CachedUserCredentials cachedUserCredentials;
 
         [Header("Reference")]
         [SerializeField] AppEnvironmentSO appEnvironmentSO;
 
+        private void OnEnable() {
+            if(File.Exists(appEnvironmentSO.ClientCredentialsPath)){
+                // load user credential when app start
+                Load();
+                _haveCached = true;
+            }
+            else{
+                _haveCached = false;
+            }
+        }
+
+        public void Cache(string username, string password){
+            cachedUserCredentials._userName = username;
+            cachedUserCredentials._password = password;
+            Save();
+        }
+
         public void Save(){
-            cachedUserCredentials.Save(appEnvironmentSO.ClientCredentialsPath);
+            BinarySerialization.WriteToBinaryFile<CachedUserCredentials>(appEnvironmentSO.ClientCredentialsPath, cachedUserCredentials);
+            _haveCached = true;
         }
 
         public void Load(){
-            cachedUserCredentials.Load(appEnvironmentSO.ClientCredentialsPath);
+            cachedUserCredentials = BinarySerialization.ReadFromBinaryFile<CachedUserCredentials>(appEnvironmentSO.ClientCredentialsPath);
+            _haveCached = true;
         }
 
+        public void Delete(){
+            File.Delete(appEnvironmentSO.ClientCredentialsPath);
+            _haveCached = false;
+        }
     }
 
     [Serializable]
-    public struct CachedUserCredentials{
-        public bool HaveCached {get => _haveCached;}
-        public string UserName {get=> _userName;}
-        public string Password {get => _password;}
-
-        [SerializeField] bool _haveCached;
-        [SerializeField] string _userName;
-        [SerializeField] string _password;
-
-        /// <summary>
-        /// Load credentials from disk
-        /// </summary>
-        public void Load(string path){
-            var diskCredential = BinarySerialization.ReadFromBinaryFile<CachedUserCredentials>(path);
-            _haveCached = diskCredential.HaveCached;
-            _userName = diskCredential.UserName;
-            _password = diskCredential.Password;
-        }
-
-        /// <summary>
-        /// save credentials to disk
-        /// </summary>
-        public void Save(string path){
-            BinarySerialization.WriteToBinaryFile<CachedUserCredentials>(path, this);
-        }
+    internal struct CachedUserCredentials{
+        public string _userName;
+        public string _password;
     }
 
     [CustomEditor(typeof(CachedUserCredentialsSO))]
@@ -74,13 +77,18 @@ namespace Tag.UserStuff{
             DrawDefaultInspector();
 
             if(GUILayout.Button("Save")) {
-                Debug.Log("Save credential from CachedUserCredentialsSO inspector");
+                Debug.Log("Save credential to disk");
                 ((CachedUserCredentialsSO)target).Save();
             }
 
             if(GUILayout.Button("Load")) {
-                Debug.Log("Load credential from CachedUserCredentialsSO inspector");
+                Debug.Log("Load credential from disk");
                 ((CachedUserCredentialsSO)target).Load();
+            }
+
+            if(GUILayout.Button("Delete")) {
+                Debug.Log("Delete credential in disk");
+                ((CachedUserCredentialsSO)target).Delete();
             }
         }
     }

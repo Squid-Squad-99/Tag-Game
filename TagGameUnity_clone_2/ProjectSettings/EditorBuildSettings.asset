@@ -14,4 +14,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ClientBootingScene.unity
     guid: c7c9e33ee6210444a96a46dc73e78c32
+  - enabled: 1
+    path: Assets/Scenes/LoginScene.unity
+    guid: ead52d46bcb48034f85e94ab0916fdc7
+  - enabled: 1
+    path: Assets/Scenes/UserHomeScene.unity
+    guid: 68475b7dd2acbe445935bb751a1ec30a
+  - enabled: 1
+    path: Assets/Scenes/WelcomeScene.unity
+    guid: 84d787cb8af3f4645ab69dbb58415b4e
+  - enabled: 1
+    path: Assets/Scenes/GrabBallGameScene.unity
+    guid: 1a70951405b15494dae2aa07d1bdd532
+  - enabled: 1
+    path: Assets/Scenes/GameClientBootScene.unity
+    guid: bd3004d20db2b464483e0822dcd063ab
+  - enabled: 1
+    path: Assets/Scenes/GameServerBootScene.unity
+    guid: 87ffae8f8dceee44781fd8bc5d584481
   m_configObjects: {}

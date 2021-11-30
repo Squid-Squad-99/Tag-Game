@@ -17,6 +17,13 @@ namespace Tag.AppEnvironment {
         [Tooltip("The relative path to the file that storing client credentials. [relate to Application.persistentDataPath]")]
         [SerializeField] List<string> _clientCredentialsPath;
 
+        [Tooltip("Sign up account URL")]
+        [SerializeField] string _signUpURL;
+
+        /// <summary>
+        /// Sign up account URL
+        /// </summary>
+        public string SignUpURL => _signUpURL;
 
         /// <summary>
         /// Full path to the file that storing client credentials.
@@ -29,11 +36,6 @@ namespace Tag.AppEnvironment {
                 return Path.Combine(path);
             }
         }
-
-        private void OnEnable() {
-            Debug.Log(ClientCredentialsPath);
-        }
-
     }
 
 }

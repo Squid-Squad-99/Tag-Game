@@ -166,3 +166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 171d7eec18e38f749896548ff65646f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WelcomeScene: {fileID: 11400000, guid: 184de58791d7ccf46a4ecb15b5dbb2c3, type: 2}
+  UserHomeScene: {fileID: 11400000, guid: deef0ed733817e64980e3a26d2352342, type: 2}
+  LoginScene: {fileID: 11400000, guid: fd3bfdac0823d5341a3224bd09cb1fe6, type: 2}
+  _cachedUserCredentials: {fileID: 11400000, guid: 456db8c50a7565e43ae927e3e70fec45, type: 2}
+  _requestLoadSceneChannel: {fileID: 11400000, guid: 540db4a33a969fc4bba906bd86c26654, type: 2}

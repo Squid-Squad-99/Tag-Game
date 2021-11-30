@@ -12,9 +12,10 @@ public class Booter : MonoBehaviour
     [SerializeField] SceneSO BootingSceneSO;
 
     [Header("BroadcastChannel")]
-    [SerializeField] LoadSceneEventChannelSO _requestLoadSceneChannel;
+    [SerializeField] SceneEventChannelSO _requestLoadSceneChannel;
 
     private void Start() {
-        _requestLoadSceneChannel.RaiseEvent(BootingSceneSO, false);
+        _requestLoadSceneChannel.RaiseEvent(BootingSceneSO);
+        Destroy(gameObject);
     }
 }

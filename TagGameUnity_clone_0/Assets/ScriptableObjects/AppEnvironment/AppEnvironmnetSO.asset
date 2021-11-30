@@ -15,3 +15,4 @@ MonoBehaviour:
   Description: just like the .env file, this SO contain the config of the app
   _clientCredentialsPath:
   - credentials.bin
+  _signUpURL: https://www.google.com/
