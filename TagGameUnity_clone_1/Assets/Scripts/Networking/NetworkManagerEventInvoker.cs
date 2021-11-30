@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using System;
 
@@ -13,10 +14,15 @@ namespace Tag.Networking{
     /// </summary>
     public class NetworkManagerEventInvoker : MonoBehaviour
     {
-        [Header("BroadCast Channels")]
+        [Header("Connection Channel")]
         [SerializeField] UlongEventChannelSO OnClientConnectedCallbackChannel;
         [SerializeField] UlongEventChannelSO OnClientDisconnectCallbackChannel;
         [SerializeField] VoidEventChannelSO OnServerStartedChannel;
+
+        [Header("Scene Stuff Channel")]
+        [SerializeField] StringEventChannelSO OnBeforeNetworkLoadSceneChannel;
+        [SerializeField] StringEventChannelSO OnLoadCompleteChannel;
+        [SerializeField] StringEventChannelSO OnLoadChannel;
 
         private void Start() {
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
@@ -32,8 +38,37 @@ namespace Tag.Networking{
             }
         }
 
+        private void HookSceneStuffChannel(){
+            NetworkManager.Singleton.SceneManager.VerifySceneBeforeLoading += OnVerifySceneBeforeLoading;
+            NetworkManager.Singleton.SceneManager.OnLoadComplete += OnLoadComplete;
+            NetworkManager.Singleton.SceneManager.OnLoad += OnLoad;
+        }
+
+        private void OnLoad(ulong clientId, string sceneName, LoadSceneMode loadSceneMode, AsyncOperation asyncOperation)
+        {
+            // Debug.Log($"{sceneName} on load");
+        }
+
+        private void OnLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
+        {
+            if(NetworkManager.Singleton.IsServer && NetworkManager.Singleton.LocalClientId != clientId) return;
+            OnLoadCompleteChannel.RaiseEvent(sceneName);
+        }
+
+        private bool OnVerifySceneBeforeLoading(int sceneIndex, string sceneName, LoadSceneMode loadSceneMode){
+            // if is not game scene, we dont load it
+            // TODO: game scene can not only be GabBallGameScene 
+            if(sceneName != "GrabBallGameScene" && sceneName != "NetworkSampleScene"){
+                return false;
+            } 
+
+            OnBeforeNetworkLoadSceneChannel.RaiseEvent(sceneName);
+            return true;
+        }
+
         private void OnServerStarted()
         {
+            HookSceneStuffChannel();
             OnServerStartedChannel.RaiseEvent();
         }
 
@@ -44,6 +79,10 @@ namespace Tag.Networking{
 
         private void OnClientConnectedCallback(ulong obj)
         {
+            if(NetworkManager.Singleton.IsClient){
+                Debug.Log("client connect");
+                HookSceneStuffChannel();
+            }
             OnClientConnectedCallbackChannel.RaiseEvent(obj);
         }
     }

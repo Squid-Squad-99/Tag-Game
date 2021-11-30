@@ -27,6 +27,6 @@ public class GameClientBooter : MonoBehaviour
 
         // connect to server (start network client)
         NetworkManager.Singleton.StartClient();
-
+        
     }
 }

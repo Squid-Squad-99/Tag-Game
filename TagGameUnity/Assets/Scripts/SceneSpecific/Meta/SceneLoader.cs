@@ -13,15 +13,21 @@ public class SceneLoader : MonoBehaviour
     [Header("Listening Channel")]
     [SerializeField] SceneEventChannelSO _requestLoadSceneChannel;
     [SerializeField] SceneEventChannelSO _requestNetworkLoadSceneChannel;
+    [SerializeField] StringEventChannelSO _beforeNetworkLoadSceneChannel;
+    [SerializeField] StringEventChannelSO _onLoadCompleteChannel;
 
     private void OnEnable() {
         _requestLoadSceneChannel.OnEventRaised += OnRequestLoadScene;
         _requestNetworkLoadSceneChannel.OnEventRaised += OnRequestNetworkLoadScene;
+        _beforeNetworkLoadSceneChannel.OnEventRaised += OnBeforeNetworkLoadScene;
+        _onLoadCompleteChannel.OnEventRaised += OnNetworkLoadComplete;
     }
 
     private void OnDisable() {
         _requestLoadSceneChannel.OnEventRaised -= OnRequestLoadScene;
         _requestNetworkLoadSceneChannel.OnEventRaised -= OnRequestNetworkLoadScene;
+        _beforeNetworkLoadSceneChannel.OnEventRaised -= OnBeforeNetworkLoadScene;
+        _onLoadCompleteChannel.OnEventRaised -= OnNetworkLoadComplete;
     }
 
     private void OnRequestLoadScene(SceneSO sceneSO)
@@ -60,7 +66,29 @@ public class SceneLoader : MonoBehaviour
             Debug.LogError("[SceneLoader] cant' network load scene if networkManager is null or this is not server");
         }
 
+
+        // network load new scene
         NetworkManager.Singleton.SceneManager.LoadScene(sceneSO.SceneName, LoadSceneMode.Additive);
+    }
+
+    
+    private void OnBeforeNetworkLoadScene(string sceneName)
+    {
+        // Debug.Log($"Before load {sceneName}");
+
+    }
+
+    private void OnNetworkLoadComplete(string sceneName)
+    {
+        // unload previous active scene
+        AsyncOperation oldAO = null;
+        if(SceneManager.GetActiveScene().name != "MetaScene"){
+            oldAO = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        Debug.Log($"load complete {sceneName}");
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+        Debug.Log($"Set active scene to {sceneName}");
     }
 
 }

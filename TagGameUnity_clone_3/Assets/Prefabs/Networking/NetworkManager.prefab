@@ -53,7 +53,7 @@ MonoBehaviour:
     NetworkTransport: {fileID: 1659698990336440514}
     PlayerPrefab: {fileID: 0}
     NetworkPrefabs: []
-    TickRate: 20
+    TickRate: 60
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
     ConnectionData: 
@@ -102,3 +102,6 @@ MonoBehaviour:
   OnClientConnectedCallbackChannel: {fileID: 11400000, guid: 2019cd59a8168b34291d2c29845b2b26, type: 2}
   OnClientDisconnectCallbackChannel: {fileID: 11400000, guid: 86e8207c2018b094a922d25a095655de, type: 2}
   OnServerStartedChannel: {fileID: 11400000, guid: 385c27ca41f985d44a681cc7cf355f9f, type: 2}
+  OnBeforeNetworkLoadSceneChannel: {fileID: 11400000, guid: fc164d22e862c0640969aa24bd8eba62, type: 2}
+  OnLoadCompleteChannel: {fileID: 11400000, guid: 678cc7c9d1992214fa613849ac988a7b, type: 2}
+  OnLoadChannel: {fileID: 0}
