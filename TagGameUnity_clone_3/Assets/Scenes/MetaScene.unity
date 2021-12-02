@@ -181,7 +181,7 @@ PrefabInstance:
     - target: {fileID: 3152741606260508951, guid: 99331c3f2bbe9af4cb4faf8b2bdeb163, type: 3}
       propertyPath: BootingSceneSO
       value: 
-      objectReference: {fileID: 11400000, guid: ef6c1d9badd4e3842b83dc6ee3c136d0, type: 2}
+      objectReference: {fileID: 11400000, guid: c245c3b9dcf00894494d1ca865e51e8c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99331c3f2bbe9af4cb4faf8b2bdeb163, type: 3}
 --- !u!1 &631579334
@@ -215,8 +215,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _requestLoadSceneChannel: {fileID: 11400000, guid: 540db4a33a969fc4bba906bd86c26654, type: 2}
   _requestNetworkLoadSceneChannel: {fileID: 11400000, guid: 198216035d55525478a47d47ec81bc3c, type: 2}
-  _beforeNetworkLoadSceneChannel: {fileID: 11400000, guid: fc164d22e862c0640969aa24bd8eba62, type: 2}
-  _onLoadCompleteChannel: {fileID: 11400000, guid: 678cc7c9d1992214fa613849ac988a7b, type: 2}
 --- !u!4 &631579336
 Transform:
   m_ObjectHideFlags: 0

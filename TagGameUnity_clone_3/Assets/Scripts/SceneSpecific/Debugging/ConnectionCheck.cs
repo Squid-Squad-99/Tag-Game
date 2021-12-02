@@ -8,7 +8,7 @@ using Ultility.Event;
 
 namespace Tag.Debugging{
 
-    public class ConnectionCheck : NetworkBehaviour
+    public class ConnectionCheck : MonoBehaviour
     {
         public enum LogLevelEnum{
             None,
@@ -42,20 +42,20 @@ namespace Tag.Debugging{
 
         private void OnClientDisconnectCallback(ulong obj)
         {
-            if(IsServer == true){
+            if(NetworkManager.Singleton.IsServer == true){
                 Log($"Server disconnect client {obj}");
             }
-            if(IsClient == true){
+            if(NetworkManager.Singleton.IsClient == true){
                 Log($"Local client {obj} disconnect to server");
             }
         }
 
         private void OnClientConnectedCallback(ulong obj)
         {
-            if(IsServer == true){
+            if(NetworkManager.Singleton.IsServer == true){
                 Log($"Server connect client {obj}");
             }
-            if(IsClient == true && NetworkManager.Singleton.LocalClientId == obj){
+            if(NetworkManager.Singleton.IsClient == true && NetworkManager.Singleton.LocalClientId == obj){
                 Log($"Local client {obj} connect to server");
             }
         }

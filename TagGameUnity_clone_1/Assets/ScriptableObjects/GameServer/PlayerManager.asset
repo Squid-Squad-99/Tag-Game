@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baf6bb01e294587478d71f06ac92fe11, type: 3}
+  m_Name: PlayerManager
+  m_EditorClassIdentifier: 
+  Players: []
+  _onCompleteAddAllPlayers: {fileID: 11400000, guid: 1d0f69278a05ad841b2b4c60744028f8, type: 2}
+  _onNetworkManagerInstantiate: {fileID: 11400000, guid: ed4a342e330d93348a41553f37f5179f, type: 2}
+  _onClientConnectedChannel: {fileID: 11400000, guid: 2019cd59a8168b34291d2c29845b2b26, type: 2}
+  _argParser: {fileID: 11400000, guid: 4f9ab789738024e45bcab52b38d65bb3, type: 2}

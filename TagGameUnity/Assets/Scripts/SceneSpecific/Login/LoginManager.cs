@@ -53,7 +53,7 @@ namespace Tag.Login{
             loginButtonPressEvent?.Invoke(username, password);
 
             // validate username & password
-            bool isValidInput = await BackendSDK.Login(username, password);
+            bool isValidInput = await WebSDK.Login(username, password);
 
             // invoke handler of valid/invalid input event
             if(isValidInput){

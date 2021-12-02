@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: 
   AddArgList:
-  - name_or_flag: port
-  - name_or_flag: gameMode
+  - gameServerId
+  - port
+  - gameMode
   EditorModeArgs:
+  - 0
   - 7777
   - 0

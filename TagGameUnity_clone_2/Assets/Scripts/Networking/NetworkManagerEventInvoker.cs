@@ -14,17 +14,18 @@ namespace Tag.Networking{
     /// </summary>
     public class NetworkManagerEventInvoker : MonoBehaviour
     {
-        [Header("Connection Channel")]
+        [Header("Network General Channel")]
         [SerializeField] UlongEventChannelSO OnClientConnectedCallbackChannel;
         [SerializeField] UlongEventChannelSO OnClientDisconnectCallbackChannel;
         [SerializeField] VoidEventChannelSO OnServerStartedChannel;
+        [SerializeField] VoidEventChannelSO OnNetworkManagerInstantiate;
 
         [Header("Scene Stuff Channel")]
         [SerializeField] StringEventChannelSO OnBeforeNetworkLoadSceneChannel;
         [SerializeField] StringEventChannelSO OnLoadCompleteChannel;
-        [SerializeField] StringEventChannelSO OnLoadChannel;
 
         private void Start() {
+            OnNetworkManagerInstantiate.RaiseEvent();
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
             NetworkManager.Singleton.OnServerStarted += OnServerStarted;

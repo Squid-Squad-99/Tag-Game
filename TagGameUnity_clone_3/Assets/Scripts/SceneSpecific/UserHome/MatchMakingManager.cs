@@ -12,8 +12,9 @@ using Tag.GameConfig;
 /// <summary>
 /// main job
 /// 1. find match by asking server
-/// 2. change to game scene when find
-/// 3. Set MatchInfoSO to the match server give
+///   When Find Match
+    /// 1. Set MatchInfoSO to the matchInfo MatchMakginServer given
+    /// 2. change to game scene
 /// </summary>
 public class MatchMakingManager : MonoBehaviour
 {
@@ -38,10 +39,10 @@ public class MatchMakingManager : MonoBehaviour
 
     private async void FindMatch(){
         // TODO: changable game mode
-        BackendSDK.GameModeEnum gameMode = BackendSDK.GameModeEnum.GrabBall;
+        MatchMakingSDK.GameModeEnum gameMode = MatchMakingSDK.GameModeEnum.GrabBall;
 
         // await server to find match
-        BackendSDK.Match match = await BackendSDK.FindMatch(gameMode);
+        MatchMakingSDK.MatchInfo match = await MatchMakingSDK.FindMatch(gameMode);
 
         // set match info so
         _matchInfo.Set(match.success, match.GameServerIP, match.GameServerPort, match.ConnectionAuthId);
