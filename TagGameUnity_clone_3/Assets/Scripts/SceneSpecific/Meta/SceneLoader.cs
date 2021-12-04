@@ -31,33 +31,6 @@ public class SceneLoader : MonoBehaviour
         // load new scene
         SceneManager.LoadSceneAsync(sceneSO.SceneName, LoadSceneMode.Additive);
 
-
-        // // unload previous active scene
-        // AsyncOperation oldAO = null;
-        // if(SceneManager.GetActiveScene().name != "MetaScene"){
-        //     oldAO = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-        // }
-
-        // Action loadNewScene = () => {
-        //     AsyncOperation newAO = SceneManager.LoadSceneAsync(sceneSO.SceneName, LoadSceneMode.Additive);
-
-        //     // set loaded scene to active while complete
-        //     newAO.completed += (obj) => {
-        //         SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneSO.SceneName));
-        //         Debug.Log($"Set active scene to {sceneSO.SceneName}");
-        //     };
-        // };
-
-        // if(oldAO != null){
-        //     // load new scene when done unload
-        //     oldAO.completed += (ao) => {
-        //         loadNewScene.Invoke();
-        //     };
-        // }
-        // else{
-        //     loadNewScene.Invoke();
-        // }
-
     }
 
     private void OnRequestNetworkLoadScene(SceneSO sceneSO)
@@ -73,27 +46,17 @@ public class SceneLoader : MonoBehaviour
 
     private void OnSceneLoaded(Scene newScene, LoadSceneMode loadSceneMode)
     {
+        Debug.Log($"Scene {newScene.name} loaded");
+
         // unload previous active scene
         string oldSceneName = SceneManager.GetActiveScene().name;
 
-        if(oldSceneName != "MetaScene"){
+        if(oldSceneName.Substring(0, 4) != "Meta"){
             SceneManager.UnloadSceneAsync(oldSceneName);
         }
 
         // set new scene active
         SceneManager.SetActiveScene(newScene);
     }
-
-    // private void OnNetworkLoadComplete(string sceneName)
-    // {
-    //     // unload previous active scene
-    //     AsyncOperation oldAO = null;
-    //     if(SceneManager.GetActiveScene().name != "MetaScene"){
-    //         oldAO = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-    //     }
-
-    //     SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
-    //     Debug.Log($"Set active scene to {sceneName}");
-    // }
 
 }

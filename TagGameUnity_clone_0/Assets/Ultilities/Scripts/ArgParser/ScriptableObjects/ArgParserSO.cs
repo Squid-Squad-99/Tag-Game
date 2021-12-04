@@ -32,6 +32,10 @@ namespace Ultility.ArgParser{
             return ArgDict[key];
         }
 
+        public bool Contain(string key){
+            return ArgDict.ContainsKey(key);
+        }
+
         private void Init()
         {
             if(_argDict != null) return;

@@ -132,11 +132,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 399566420}
-  - component: {fileID: 399566421}
   - component: {fileID: 399566423}
   - component: {fileID: 399566422}
   - component: {fileID: 399566424}
   - component: {fileID: 399566425}
+  - component: {fileID: 399566421}
+  - component: {fileID: 399566426}
   m_Layer: 0
   m_Name: GameServerBooter
   m_TagString: Untagged
@@ -167,10 +168,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 399566419}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffdbec95773c33e4b80a5e0d34a0b25e, type: 3}
+  m_Script: {fileID: 11500000, guid: 01811dbf63af159449227fab60e55fc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _argParser: {fileID: 11400000, guid: 4f9ab789738024e45bcab52b38d65bb3, type: 2}
+  _onPlayerMangerInitedChannel: {fileID: 11400000, guid: 286f066794337274b842711b1779da7b, type: 2}
+  _requestStartServerChannel: {fileID: 11400000, guid: 12b0b3f85c6d14f4996eece3328c4b75, type: 2}
 --- !u!114 &399566422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,6 +231,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onCompleteAddAllPlayer: {fileID: 11400000, guid: 1d0f69278a05ad841b2b4c60744028f8, type: 2}
   _requestLoadGameScene: {fileID: 11400000, guid: bda4c48966a73d149aca0792610a451c, type: 2}
+--- !u!114 &399566426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399566419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0133520bbbf71ee4f9f313886325b588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerManager: {fileID: 11400000, guid: f116bf1331a083544afd4e7ffa192ba5, type: 2}
 --- !u!1001 &499130442
 PrefabInstance:
   m_ObjectHideFlags: 0

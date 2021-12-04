@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Players: []
   _onCompleteAddAllPlayers: {fileID: 11400000, guid: 1d0f69278a05ad841b2b4c60744028f8, type: 2}
+  _onPlayerManagerInited: {fileID: 11400000, guid: 286f066794337274b842711b1779da7b, type: 2}
   _onNetworkManagerInstantiate: {fileID: 11400000, guid: ed4a342e330d93348a41553f37f5179f, type: 2}
   _onClientConnectedChannel: {fileID: 11400000, guid: 2019cd59a8168b34291d2c29845b2b26, type: 2}
   _argParser: {fileID: 11400000, guid: 4f9ab789738024e45bcab52b38d65bb3, type: 2}

@@ -9,6 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/MetaScene.unity
     guid: ba3304fe57c2dce4b9ecd1941f343841
   - enabled: 1
+    path: Assets/Scenes/GameServerBootScene.unity
+    guid: 87ffae8f8dceee44781fd8bc5d584481
+  - enabled: 1
+    path: Assets/Scenes/GameClientBootScene.unity
+    guid: bd3004d20db2b464483e0822dcd063ab
+  - enabled: 1
+    path: Assets/Scenes/Debug/MetaClientScene.unity
+    guid: 26eb7ceac1f4e81458e7ed619863ae58
+  - enabled: 1
+    path: Assets/Scenes/Debug/MetaServerScene.unity
+    guid: 4001f03385077e24e87324d82403e527
+  - enabled: 1
     path: Assets/Scenes/NetworkSampleScene.unity
     guid: a553614cdeed630408b9b67cf5adf6f6
   - enabled: 1
@@ -26,10 +38,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GrabBallGameScene.unity
     guid: 1a70951405b15494dae2aa07d1bdd532
-  - enabled: 1
-    path: Assets/Scenes/GameClientBootScene.unity
-    guid: bd3004d20db2b464483e0822dcd063ab
-  - enabled: 1
-    path: Assets/Scenes/GameServerBootScene.unity
-    guid: 87ffae8f8dceee44781fd8bc5d584481
   m_configObjects: {}
