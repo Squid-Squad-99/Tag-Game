@@ -21,6 +21,7 @@ public class StartClient : MonoBehaviour
 
     private void Start() {
         // config transport by match info
+        uNetTransport = GameObject.Find("NetworkManager").GetComponent<UNetTransport>();
         uNetTransport.ConnectAddress = matchInfo.GameServerIP;
         uNetTransport.ConnectPort = Int32.Parse(matchInfo.GameServerPort);
 

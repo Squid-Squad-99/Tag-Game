@@ -22,7 +22,7 @@ namespace Tag.Networking{
 
         [Header("Scene Stuff Channel")]
         [SerializeField] StringEventChannelSO OnBeforeNetworkLoadSceneChannel;
-        [SerializeField] StringEventChannelSO OnLoadCompleteChannel;
+        [SerializeField] StringEventChannelSO OnAllClientCompleteLoadSceneChannel;
 
         private void Start() {
             OnNetworkManagerInstantiate.RaiseEvent();
@@ -40,26 +40,20 @@ namespace Tag.Networking{
         }
 
         private void HookSceneStuffChannel(){
+            NetworkManager.Singleton.SceneManager.DisableValidationWarnings(true);
             NetworkManager.Singleton.SceneManager.VerifySceneBeforeLoading += OnVerifySceneBeforeLoading;
-            NetworkManager.Singleton.SceneManager.OnLoadComplete += OnLoadComplete;
-            NetworkManager.Singleton.SceneManager.OnLoad += OnLoad;
+            NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += OnLoadEventCompleted;
         }
 
-        private void OnLoad(ulong clientId, string sceneName, LoadSceneMode loadSceneMode, AsyncOperation asyncOperation)
+        private void OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
         {
-            // Debug.Log($"{sceneName} on load");
-        }
-
-        private void OnLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
-        {
-            if(NetworkManager.Singleton.IsServer && NetworkManager.Singleton.LocalClientId != clientId) return;
-            OnLoadCompleteChannel.RaiseEvent(sceneName);
+            if(NetworkManager.Singleton.IsServer == false) return;
+            OnAllClientCompleteLoadSceneChannel.RaiseEvent(sceneName);
         }
 
         private bool OnVerifySceneBeforeLoading(int sceneIndex, string sceneName, LoadSceneMode loadSceneMode){
-            // if is not game scene, we dont load it
-            // TODO: game scene can not only be GabBallGameScene 
-            if(sceneName != "GrabBallGameScene" && sceneName != "NetworkSampleScene"){
+            // Dont load metascene, client will have already load...
+            if(sceneName == "MetaScene"){
                 return false;
             } 
 
@@ -81,7 +75,6 @@ namespace Tag.Networking{
         private void OnClientConnectedCallback(ulong obj)
         {
             if(NetworkManager.Singleton.IsClient){
-                Debug.Log("client connect");
                 HookSceneStuffChannel();
             }
             OnClientConnectedCallbackChannel.RaiseEvent(obj);

@@ -30,7 +30,6 @@ public class SceneLoader : MonoBehaviour
     {
         // load new scene
         SceneManager.LoadSceneAsync(sceneSO.SceneName, LoadSceneMode.Additive);
-
     }
 
     private void OnRequestNetworkLoadScene(SceneSO sceneSO)
@@ -46,8 +45,6 @@ public class SceneLoader : MonoBehaviour
 
     private void OnSceneLoaded(Scene newScene, LoadSceneMode loadSceneMode)
     {
-        Debug.Log($"Scene {newScene.name} loaded");
-
         // unload previous active scene
         string oldSceneName = SceneManager.GetActiveScene().name;
 

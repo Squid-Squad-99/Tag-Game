@@ -7,7 +7,7 @@ using Unity.Netcode;
 using Ultility.Event;
 using Ultility.Event.Network;
 
-using Tag.GameServer;
+using Tag.Game.Managers;
 
 namespace Tag.NetworkInputManager{
 
@@ -28,8 +28,9 @@ namespace Tag.NetworkInputManager{
         [SerializeField] NetworkVoidEventChannelSO _userJumpChannel;
         [SerializeField] NetworkVoidEventChannelSO _userFireChannel;
 
-        [Header("Reference")]
-        [SerializeField] PlayerManagerSO _playerManager;
+
+        [Header("Setting")]
+        [SerializeField] bool _logLevel = false;
 
         private NetworkManager _networkManager;
         private NetworkTimeSystem _networkTimeSystem;
@@ -39,11 +40,15 @@ namespace Tag.NetworkInputManager{
             _networkTimeSystem = _networkManager.NetworkTimeSystem;
         }
 
+        private void Log(string s){
+            if(_logLevel == true) Debug.Log(s);
+        }
+
         public void OnMove(InputValue inputValue){
             Vector2 value = inputValue.Get<Vector2>();
 
             // raise local event
-            Debug.Log($"Move input: {value}");
+            Log($"Move input: {value}");
             _onMoveChannel.RaiseEvent(value);
 
             // raise event on server
@@ -52,14 +57,14 @@ namespace Tag.NetworkInputManager{
 
         [ServerRpc(RequireOwnership = false)]
         private void RaiseNetMoveChannelServerRpc(ulong clientId, double localTime, Vector2 value){
-            Debug.Log("server Raise user move channel");
-            _userMoveChannel.RaiseEvent(_playerManager.GetUserIdByClientId(clientId), localTime, value);
+            Log("server Raise user move channel");
+            _userMoveChannel.RaiseEvent(PlayerManager.Singleton.GetUserIdByClientId(clientId), localTime, value);
         }
 
         public void OnLook(InputValue inputValue){
             Vector2 value = inputValue.Get<Vector2>();
 
-            Debug.Log($"look input: {value}");
+            Log($"look input: {value}");
             _onLookChannel.RaiseEvent(value);
 
             RaiseNetLookChannelServerRpc(_networkManager.LocalClientId, _networkTimeSystem.LocalTime, value);
@@ -67,12 +72,12 @@ namespace Tag.NetworkInputManager{
 
         [ServerRpc(RequireOwnership = false)]
         private void RaiseNetLookChannelServerRpc(ulong clientId, double localTime, Vector2 value){
-            Debug.Log("server Raise user look channel");
-            _userLookChannel.RaiseEvent(_playerManager.GetUserIdByClientId(clientId), localTime, value);
+            Log("server Raise user look channel");
+            _userLookChannel.RaiseEvent(PlayerManager.Singleton.GetUserIdByClientId(clientId), localTime, value);
         }
 
         public void OnJump(InputValue inputValue){
-            Debug.Log("Jump input");
+            Log("Jump input");
             _onJumpChannel.RaiseEvent();
 
             RaiseNetJumpChannelServerRpc(_networkManager.LocalClientId, _networkTimeSystem.LocalTime);
@@ -80,12 +85,12 @@ namespace Tag.NetworkInputManager{
 
         [ServerRpc(RequireOwnership = false)]
         private void RaiseNetJumpChannelServerRpc(ulong clientId, double localTime){
-            Debug.Log("server Raise user jump channel");
-            _userJumpChannel.RaiseEvent(_playerManager.GetUserIdByClientId(clientId), localTime);
+            Log("server Raise user jump channel");
+            _userJumpChannel.RaiseEvent(PlayerManager.Singleton.GetUserIdByClientId(clientId), localTime);
         }
 
         public void OnFire(InputValue inputValue){
-            Debug.Log("Fire input");
+            Log("Fire input");
             _onFireChannel.RaiseEvent();
             
             RaiseNetFireChannelServerRpc(_networkManager.LocalClientId, _networkTimeSystem.LocalTime);
@@ -93,8 +98,8 @@ namespace Tag.NetworkInputManager{
 
         [ServerRpc(RequireOwnership = false)]
         private void RaiseNetFireChannelServerRpc(ulong clientId, double localTime){
-            Debug.Log("server Raise user fire channel");
-            _userFireChannel.RaiseEvent(_playerManager.GetUserIdByClientId(clientId), localTime);
+            Log("server Raise user fire channel");
+            _userFireChannel.RaiseEvent(PlayerManager.Singleton.GetUserIdByClientId(clientId), localTime);
         }
     }
     

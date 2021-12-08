@@ -55,7 +55,7 @@ namespace Tag.Backend{
             match.success = true;
             match.GameServerIP = "127.0.0.1";
             match.GameServerPort = "7777";
-            match.ConnectionAuthId = "0";
+            match.ConnectionAuthId = "1010";
 
             return match;
         }
@@ -70,7 +70,7 @@ namespace Tag.Backend{
         static public async Task<Dictionary<string, Ticket>> GetAuthIdToTicketDict(string gameServerId){
             await Task.Delay(1000);
             var dic = new Dictionary<string, Ticket>();
-            dic.Add("0", new Ticket(0, GameModeEnum.GrabBall)); 
+            dic.Add("1010", new Ticket(1234, GameModeEnum.GrabBall)); 
             // dic.Add("1", new Ticket("1", GameModeEnum.GrabBall)); 
             return dic;
         }

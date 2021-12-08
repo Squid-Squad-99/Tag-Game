@@ -42,7 +42,6 @@ namespace Tag.ServerBooting{
             LoadGameScene();
         }
         public void LoadGameScene(){
-            Debug.Log("Load Game Scene");
             // network load game scene 
             _requestNetworkLoadSceneChannel.RaiseEvent(GetSceneByArg());
         }

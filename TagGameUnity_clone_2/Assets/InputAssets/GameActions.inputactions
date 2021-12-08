@@ -10,7 +10,7 @@
                     "type": "Value",
                     "id": "2ea29f57-4e38-4517-b837-c1c5a3cb74a6",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "NormalizeVector2",
                     "interactions": ""
                 },
                 {
@@ -18,7 +18,7 @@
                     "type": "Value",
                     "id": "23b54e92-e9de-4d00-ab6d-0512522adcfa",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "NormalizeVector2,ScaleVector2(x=50,y=50),InvertVector2(invertX=false)",
                     "interactions": ""
                 },
                 {
@@ -187,7 +187,7 @@
                     "id": "8c8e490b-c610-4785-884f-f04217b23ca4",
                     "path": "<Pointer>/delta",
                     "interactions": "",
-                    "processors": "InvertVector2(invertX=false)",
+                    "processors": "",
                     "groups": ";Keyboard&Mouse;Touch",
                     "action": "Look",
                     "isComposite": false,

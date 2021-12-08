@@ -30,6 +30,7 @@ namespace Tag.ServerBooting{
         public void StartGameServer() {
 
             // set transport by arg
+            _uNetTransport = GameObject.Find("NetworkManager").GetComponent<UNetTransport>();
             int port =Int32.Parse(_serverArgParser.GetArg("port"));
             _uNetTransport.ServerListenPort = port;
 
