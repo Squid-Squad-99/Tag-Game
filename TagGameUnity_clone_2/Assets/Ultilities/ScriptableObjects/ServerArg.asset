@@ -18,6 +18,6 @@ MonoBehaviour:
   - port
   - gameMode
   EditorModeArgs:
-  - 0
+  - -1
   - 7777
   - 0
