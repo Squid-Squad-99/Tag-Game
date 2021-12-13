@@ -39,15 +39,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6479672269097394336}
-  - component: {fileID: 6479672269097394339}
-  - component: {fileID: 6479672269097394340}
   - component: {fileID: 6479672269097394343}
   - component: {fileID: 6479672269097394342}
   - component: {fileID: 6479672269097394337}
   - component: {fileID: 6479672269097394341}
   - component: {fileID: 6479672269097394362}
+  - component: {fileID: 959014806}
+  - component: {fileID: 7000070658009728498}
+  - component: {fileID: 4827343055820298671}
   m_Layer: 6
-  m_Name: Character
+  m_Name: ArcherCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,73 +70,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6479672269097394339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6479672269097394338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6bc1aaf4-b110-4ff7-891e-5b9fe6f32c4d
-    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 2690c379-f54d-45be-a724-414123833eb4
-    m_ActionName: Player/Look[/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 8c4abdf8-4099-493a-aa1a-129acec7c3df
-    m_ActionName: Player/Jump[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 980e881e-182c-404c-8cbf-3d09fdb48fef
-    m_ActionName: Player/Sprint[/Keyboard/leftShift]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!114 &6479672269097394340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6479672269097394338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06353792857b88244b50d56317e52dcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _inputJumpEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  _inputLookEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  _inputMoveEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!54 &6479672269097394343
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -218,6 +152,72 @@ MonoBehaviour:
   _groundedExtentTime: 0.2
   _isGround: 0
   _extentDelta: 0
+--- !u!114 &959014806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6479672269097394338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &7000070658009728498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6479672269097394338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 213461be4c5cdc447b06a014703514bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OwnerUserId:
+    m_InternalValue: 0
+  _characterGiveToUserChannel: {fileID: 11400000, guid: e8cc8d47b750c73409ddb7e330ca3563, type: 2}
+  _characterSpawnChannel: {fileID: 11400000, guid: 3da9bbfda8e0d804a95d731471b29da3, type: 2}
+  PlayerVCamTarget: {fileID: 6479672268852053749}
+--- !u!114 &4827343055820298671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6479672269097394338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55dfaa1d830599443b5571b696876f93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UserFireChannel: {fileID: 11400000, guid: 3e9a1f844406fcc43ae6b8bf7ce41f37, type: 2}
+  UserJumpChannel: {fileID: 11400000, guid: 9ac0b68a28aa86141bbf763da7b5791a, type: 2}
+  UserLookChannel: {fileID: 11400000, guid: 900aeb4ed90b01d4aaa09d9de514cf75, type: 2}
+  UserMoveChannel: {fileID: 11400000, guid: cb5a555363e65ff42b6033e84f4054a1, type: 2}
+  LocalFireChannel: {fileID: 11400000, guid: f75cee67a785d2a49a7df5334a0bd7de, type: 2}
+  LocalJumpChannel: {fileID: 11400000, guid: 120c80acdaf3e2142b4ccba3ee5f6800, type: 2}
+  LocalLookChannel: {fileID: 11400000, guid: e30b0eb720df1b94a9a89aada7578e42, type: 2}
+  LocalMoveChannel: {fileID: 11400000, guid: 50609d8c6c4d0bd48876934aad62dc6b, type: 2}
+  _inputFireEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _inputJumpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _inputLookEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _inputMoveEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  RequestDebugDisplayChannel: {fileID: 11400000, guid: ccfc08160c221a045a45e5a48f930b50, type: 2}
 --- !u!1001 &6479672270165582403
 PrefabInstance:
   m_ObjectHideFlags: 0

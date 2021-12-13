@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+using RigiArcher.CharacterInput;
+
 namespace Tag.Game.Character{
 
     /// <summary>
@@ -26,7 +28,7 @@ namespace Tag.Game.Character{
 
         private void Awake() {
             // cache user specific input look event
-            _inputLookEvent = GetComponent<UserSpecifyInputBroadcaster>().InputLookEvent;
+            _inputLookEvent = GetComponent<ICharacterInputBroadcaster>().InputLookEvent;
         }
 
         private void OnEnable() {

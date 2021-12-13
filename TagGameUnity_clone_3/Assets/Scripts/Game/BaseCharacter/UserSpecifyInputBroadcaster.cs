@@ -1,3 +1,4 @@
+using System;
  using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,14 +8,15 @@ using Unity.Netcode;
 
 using Ultility.Event;
 using Ultility.Event.Network;
-using System;
+
+using RigiArcher.CharacterInput;
 
 namespace Tag.Game.Character{
 
     /// <summary>
     /// raise user input event of specify user
     /// </summary>
-    public class UserSpecifyInputBroadcaster : MonoBehaviour
+    public class UserSpecifyInputBroadcaster : MonoBehaviour, ICharacterInputBroadcaster
     {
         [Header("listening Channel")]
         [SerializeField] NetworkVoidEventChannelSO UserFireChannel;
@@ -27,12 +29,21 @@ namespace Tag.Game.Character{
         [SerializeField] Vector2EventChannelSO LocalMoveChannel;
 
         [Header("Broadcasting Event")]
-        public UnityEvent InputFireEvent;
-        public UnityEvent InputJumpEvent;
-        public UnityEvent<Vector2> InputLookEvent;
-        public UnityEvent<Vector2> InputMoveEvent;
+        [SerializeField] UnityEvent _inputFireEvent;
+        [SerializeField] UnityEvent _inputJumpEvent;
+        [SerializeField] UnityEvent<Vector2> _inputLookEvent;
+        [SerializeField] UnityEvent<Vector2> _inputMoveEvent;
+
+        [Header("Debug")]
+        [SerializeField] StringEventChannelSO RequestDebugDisplayChannel;
 
         private CharacterObject _characterObject;
+
+        public UnityEvent InputJumpEvent => _inputJumpEvent;
+
+        public UnityEvent<Vector2> InputLookEvent => _inputLookEvent;
+
+        public UnityEvent<Vector2> InputMoveEvent => _inputMoveEvent;
 
         private void OnEnable() {
             // cache character Object
@@ -75,7 +86,7 @@ namespace Tag.Game.Character{
         private void OnLocalFire()
         {
             if(IsThisUserInput(_characterObject.OwnerUserId.Value)){
-                InputFireEvent.Invoke();
+                _inputFireEvent.Invoke();
             }
         }
 
@@ -89,6 +100,8 @@ namespace Tag.Game.Character{
         private void OnLocalLook(Vector2 inputValue)
         {
             if(IsThisUserInput(_characterObject.OwnerUserId.Value)){
+                RequestDebugDisplayChannel.RaiseEvent($"Pos: {transform.position}");
+                Debug.Log("user Look");
                 InputLookEvent.Invoke(inputValue);
             }
         }
@@ -112,7 +125,7 @@ namespace Tag.Game.Character{
                 // wait to sync client time
                 await SyncClientTime(clientLocalTime);
                 // invoke event
-                InputFireEvent.Invoke();
+                _inputFireEvent.Invoke();
             }
         }
 
@@ -129,6 +142,8 @@ namespace Tag.Game.Character{
         private async void OnUserLook(ulong userId, double clientLocalTime, Vector2 inputValue)
         {
             if(IsThisUserInput(userId)){
+                RequestDebugDisplayChannel.RaiseEvent($"Pos: {transform.position}");
+                Debug.Log("user Look");
                 // wait to sync client time
                 await SyncClientTime(clientLocalTime);
                 // invoke event
@@ -139,7 +154,6 @@ namespace Tag.Game.Character{
         private async void OnUserMove(ulong userId, double clientLocalTime, Vector2 inputValue)
         {
             if(IsThisUserInput(userId)){
-                Debug.Log("user move");
                 // wait to sync client time
                 await SyncClientTime(clientLocalTime);
                 // invoke event
@@ -149,7 +163,7 @@ namespace Tag.Game.Character{
 
         private async Task SyncClientTime(double clientLocalTime){
             double serverTime = NetworkManager.Singleton.NetworkTimeSystem.ServerTime;
-            double waitTime = serverTime - clientLocalTime;
+            double waitTime = clientLocalTime - serverTime;
             if(waitTime < 0){
                 // TODO: handle wait negative time
                 Debug.Log("Client's time is too slow");

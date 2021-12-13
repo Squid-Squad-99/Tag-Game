@@ -35,6 +35,9 @@ namespace Tag.NetworkInputManager{
         private NetworkManager _networkManager;
         private NetworkTimeSystem _networkTimeSystem;
 
+        private Vector2 _moveInputValue;
+        private Vector2 _lookInputValue;
+
         private void Start() {
             _networkManager = NetworkManager.Singleton;
             _networkTimeSystem = _networkManager.NetworkTimeSystem;
@@ -44,15 +47,30 @@ namespace Tag.NetworkInputManager{
             if(_logLevel == true) Debug.Log(s);
         }
 
-        public void OnMove(InputValue inputValue){
-            Vector2 value = inputValue.Get<Vector2>();
+        private void Update() {
+            StartCoroutine(Foo());
+        }
 
+        IEnumerator Foo(){
+            yield return new WaitForSeconds(2f);
+            // move
             // raise local event
-            Log($"Move input: {value}");
-            _onMoveChannel.RaiseEvent(value);
-
+            _onMoveChannel.RaiseEvent(_moveInputValue);
             // raise event on server
-            RaiseNetMoveChannelServerRpc(_networkManager.LocalClientId, _networkTimeSystem.LocalTime, value);
+            RaiseNetMoveChannelServerRpc(_networkManager.LocalClientId, _networkTimeSystem.LocalTime, _moveInputValue);
+
+            // look
+            // raise local event
+            _onLookChannel.RaiseEvent(_lookInputValue);
+            // raise event on server
+            RaiseNetLookChannelServerRpc(_networkManager.LocalClientId, _networkTimeSystem.LocalTime, _lookInputValue);
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        public void OnMove(InputValue inputValue){
+            _moveInputValue = inputValue.Get<Vector2>();
+
         }
 
         [ServerRpc(RequireOwnership = false)]
@@ -62,12 +80,8 @@ namespace Tag.NetworkInputManager{
         }
 
         public void OnLook(InputValue inputValue){
-            Vector2 value = inputValue.Get<Vector2>();
+            _lookInputValue = inputValue.Get<Vector2>();
 
-            Log($"look input: {value}");
-            _onLookChannel.RaiseEvent(value);
-
-            RaiseNetLookChannelServerRpc(_networkManager.LocalClientId, _networkTimeSystem.LocalTime, value);
         }
 
         [ServerRpc(RequireOwnership = false)]
