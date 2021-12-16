@@ -70,8 +70,8 @@ namespace Tag.Backend{
         static public async Task<Dictionary<string, Ticket>> GetAuthIdToTicketDict(string gameServerId){
             await Task.Delay(1000);
             var dic = new Dictionary<string, Ticket>();
-            dic.Add("1010", new Ticket(1234, GameModeEnum.GrabBall)); 
-            // dic.Add("1", new Ticket("1", GameModeEnum.GrabBall)); 
+            dic.Add("0001", new Ticket(1111, GameModeEnum.GrabBall)); 
+            // dic.Add("0002", new Ticket(2222, GameModeEnum.GrabBall)); 
             return dic;
         }
 

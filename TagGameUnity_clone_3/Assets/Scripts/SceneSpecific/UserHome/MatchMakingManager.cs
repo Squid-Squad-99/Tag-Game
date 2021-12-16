@@ -45,7 +45,8 @@ public class MatchMakingManager : MonoBehaviour
         MatchMakingSDK.MatchInfo match = await MatchMakingSDK.FindMatch(gameMode);
 
         // set match info so
-        _matchInfo.Set(match.success, match.GameServerIP, match.GameServerPort, match.ConnectionAuthId);
+        // TODO currently use editor to set
+        // _matchInfo.Set(match.success, match.GameServerIP, match.GameServerPort, match.ConnectionAuthId);
 
         if(match.success == true){
             // delegate find match handler

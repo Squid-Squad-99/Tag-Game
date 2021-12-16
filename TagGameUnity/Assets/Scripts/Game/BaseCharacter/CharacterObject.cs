@@ -5,6 +5,7 @@ using Unity.Netcode;
 
 using Ultility.Event;
 using System;
+using Tag.Game.Managers;
 
 namespace Tag.Game.Character{
     
@@ -14,6 +15,7 @@ namespace Tag.Game.Character{
     public class CharacterObject : NetworkBehaviour
     {
         public NetworkVariable<ulong> OwnerUserId;
+        public bool OwnedByLocalUser;
         
         [Header("Broadcast Channel")]
         [SerializeField] GameObjectEventChannelSO _characterGiveToUserChannel;
@@ -53,6 +55,8 @@ namespace Tag.Game.Character{
 
         public override void OnNetworkSpawn()
         {
+            // set is owner
+            OwnedByLocalUser = PlayerManager.Singleton.LocalUserId == OwnerUserId.Value;
             // broadcast character spawn event
             _characterSpawnChannel.RaiseEvent(gameObject);
         }

@@ -45,8 +45,10 @@ GameObject:
   - component: {fileID: 6479672269097394341}
   - component: {fileID: 6479672269097394362}
   - component: {fileID: 959014806}
+  - component: {fileID: 3461563827801603809}
   - component: {fileID: 7000070658009728498}
   - component: {fileID: 4827343055820298671}
+  - component: {fileID: 4658752970041839295}
   m_Layer: 6
   m_Name: ArcherCharacter
   m_TagString: Untagged
@@ -168,6 +170,23 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &3461563827801603809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6479672269097394338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e07f57f96c965c641a2dbf277b611787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LogicComponents:
+  - {fileID: 6479672269097394337}
+  - {fileID: 6479672269097394341}
+  - {fileID: 6479672269097394362}
+  EnableLogic: 1
 --- !u!114 &7000070658009728498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OwnerUserId:
     m_InternalValue: 0
+  OwnedByLocalUser: 0
   _characterGiveToUserChannel: {fileID: 11400000, guid: e8cc8d47b750c73409ddb7e330ca3563, type: 2}
   _characterSpawnChannel: {fileID: 11400000, guid: 3da9bbfda8e0d804a95d731471b29da3, type: 2}
   PlayerVCamTarget: {fileID: 6479672268852053749}
@@ -218,6 +238,24 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   RequestDebugDisplayChannel: {fileID: 11400000, guid: ccfc08160c221a045a45e5a48f930b50, type: 2}
+--- !u!114 &4658752970041839295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6479672269097394338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d40992d7d0b2a8648be215151a516514, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mode: 0
+  _maxSize: 50
+  _pastEntriesCnt: 0
+  _futerEntriesCnt: 0
+  _positionSmoothTime: 0.05
+  _requestDisplay: {fileID: 11400000, guid: ccfc08160c221a045a45e5a48f930b50, type: 2}
 --- !u!1001 &6479672270165582403
 PrefabInstance:
   m_ObjectHideFlags: 0

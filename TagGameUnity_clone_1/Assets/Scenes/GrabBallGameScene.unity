@@ -4573,6 +4573,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 3270862376
       objectReference: {fileID: 0}
+    - target: {fileID: 4658752970041839295, guid: df45926f7a905944b8d200a058ebda9c, type: 3}
+      propertyPath: MaxSize
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6479672269097394336, guid: df45926f7a905944b8d200a058ebda9c, type: 3}
       propertyPath: m_RootOrder
       value: 16

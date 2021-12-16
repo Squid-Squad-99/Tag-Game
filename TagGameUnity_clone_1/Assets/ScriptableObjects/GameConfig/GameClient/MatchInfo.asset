@@ -15,4 +15,4 @@ MonoBehaviour:
   Success: 1
   GameServerIP: 127.0.0.1
   GameServerPort: 7777
-  ConnectionAuthId: 1010
+  ConnectionAuthId: 0001
