@@ -68,6 +68,7 @@ namespace Tag.Debugging{
             float pin = Time.time - startTime;
             RequestDebugDisplayChannel.RaiseEvent($"Pin: {(int)(pin*1000)} ms");
             RequestDebugDisplayChannel.RaiseEvent($"serverServerTime - serverTime: {Mathf.Round(1000*(serverServerTime - NetworkManager.ServerTime.TimeAsFloat))} ms");
+            RequestDebugDisplayChannel.RaiseEvent($"localTime - serverServerTime: {Mathf.Round(1000*(NetworkManager.LocalTime.TimeAsFloat - serverServerTime))} ms");
         }
             
     }

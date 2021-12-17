@@ -30,6 +30,7 @@ namespace Tag.NetworkInputManager{
 
 
         [Header("Setting")]
+        [SerializeField] bool BroadcastUserLookInput;
         [SerializeField] bool _logLevel = false;
 
         private NetworkManager _networkManager;
@@ -39,33 +40,37 @@ namespace Tag.NetworkInputManager{
         private Vector2 _lookInputValue;
 
         private void Start() {
-            _networkManager = NetworkManager.Singleton;
-            _networkTimeSystem = _networkManager.NetworkTimeSystem;
+
         }
 
         private void Log(string s){
             if(_logLevel == true) Debug.Log(s);
         }
 
-        private void Update() {
-            StartCoroutine(Foo());
+        public override void OnNetworkSpawn()
+        {
+            _networkManager = NetworkManager.Singleton;
+            _networkTimeSystem = _networkManager.NetworkTimeSystem;
+            // broad cast move look at every frame
+            StartCoroutine(BroadcastMove_N_LookInpur());
         }
 
-        IEnumerator Foo(){
-            yield return new WaitForSeconds(2f);
-            // move
-            // raise local event
-            _onMoveChannel.RaiseEvent(_moveInputValue);
-            // raise event on server
-            RaiseNetMoveChannelServerRpc(_networkManager.LocalClientId, _networkTimeSystem.LocalTime, _moveInputValue);
+        IEnumerator BroadcastMove_N_LookInpur(){
+            while(true){
+                // move
+                // raise local event
+                _onMoveChannel.RaiseEvent(_moveInputValue);
+                // raise event on server
+                RaiseNetMoveChannelServerRpc(_networkManager.LocalClientId, NetworkManager.Singleton.LocalTime.Time, _moveInputValue);
 
-            // look
-            // raise local event
-            _onLookChannel.RaiseEvent(_lookInputValue);
-            // raise event on server
-            RaiseNetLookChannelServerRpc(_networkManager.LocalClientId, _networkTimeSystem.LocalTime, _lookInputValue);
+                // look
+                // raise local event
+                _onLookChannel.RaiseEvent(_lookInputValue);
+                // raise event on server
+                RaiseNetLookChannelServerRpc(_networkManager.LocalClientId, NetworkManager.Singleton.LocalTime.Time, _lookInputValue);
 
-            yield return new WaitForSeconds(0.1f);
+                yield return null;
+            }
         }
 
         public void OnMove(InputValue inputValue){
@@ -87,7 +92,7 @@ namespace Tag.NetworkInputManager{
         [ServerRpc(RequireOwnership = false)]
         private void RaiseNetLookChannelServerRpc(ulong clientId, double localTime, Vector2 value){
             Log("server Raise user look channel");
-            _userLookChannel.RaiseEvent(PlayerManager.Singleton.GetUserIdByClientId(clientId), localTime, value);
+            if(BroadcastUserLookInput) _userLookChannel.RaiseEvent(PlayerManager.Singleton.GetUserIdByClientId(clientId), localTime, value);
         }
 
         public void OnJump(InputValue inputValue){

@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.Events;
+
+using Ultility.Event;
+using Tag.Networking;
 
 namespace Tag.Game.Character{
 
@@ -14,27 +18,47 @@ namespace Tag.Game.Character{
     public class CharacterLogicSwitch : NetworkBehaviour
     {
         [SerializeField] List<MonoBehaviour> LogicComponents;
+
+        [Header("Listening Channel")]
+        [SerializeField] GameObjectEventChannelSO _characterSpawnEvent;
         public bool EnableLogic = true;
 
-        public override void OnNetworkSpawn()
-        {
-            // turn of logic if is client and not own this
-            if(IsClient){
-                Debug.Log($"IS owen {GetComponent<CharacterObject>().OwnedByLocalUser}");
-                if(GetComponent<CharacterObject>().OwnedByLocalUser == true) return;
-
-                // turn of component
-                foreach(MonoBehaviour mono in LogicComponents){
-                    mono.enabled = false;
+        private void OnEnable() {
+            UnityAction<GameObject> LogicSwitch = null;
+            LogicSwitch = (character) => {
+                //is this character
+                if(character == gameObject){
+                    // is client and not own this character
+                    if(IsClient && GetComponent<CharacterObject>().OwnedByLocalUser == false){
+                        TurnOffLogic();
+                        GetComponent<SyncTransform>().Mode = SyncTransform.ModeEnum.Sync;
+                    }
+                    else{
+                        GetComponent<SyncTransform>().Mode = SyncTransform.ModeEnum.PredictionCorrection;
+                    }
+                    // onHook event
+                    _characterSpawnEvent.OnEventRaised -= LogicSwitch;
                 }
-                // if have rigibody turn to kinematic
-                if(TryGetComponent<Rigidbody>(out Rigidbody rigibody)) rigibody.isKinematic = true;
-                if(TryGetComponent<Collider>(out Collider collider)) collider.enabled = false;
+            };
 
-                EnableLogic = false;
-            }
+            // hook character spawn event
+            _characterSpawnEvent.OnEventRaised += LogicSwitch;
         }
 
+        private void TurnOffLogic(){
+            Debug.Log($"IS owen {GetComponent<CharacterObject>().OwnedByLocalUser}");
+            if(GetComponent<CharacterObject>().OwnedByLocalUser == true) return;
+
+            // turn of component
+            foreach(MonoBehaviour mono in LogicComponents){
+                mono.enabled = false;
+            }
+            // if have rigibody turn to kinematic
+            if(TryGetComponent<Rigidbody>(out Rigidbody rigibody)) rigibody.isKinematic = true;
+            if(TryGetComponent<Collider>(out Collider collider)) collider.enabled = false;
+
+            EnableLogic = false;
+        }
 
     }
 }

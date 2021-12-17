@@ -15,3 +15,6 @@ MonoBehaviour:
   MouseSensitivity: 2
   TopClamp: 59
   BottomClamp: 60
+  IsNetworking: 1
+  EnableOnServer: 0
+  EnableOnClient: 1

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6479672268852053749}
+  - component: {fileID: 3076254498905488643}
   m_Layer: 6
   m_Name: VCamTarget
   m_TagString: Untagged
@@ -30,6 +31,18 @@ Transform:
   m_Father: {fileID: 6479672269097394336}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3076254498905488643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6479672268852053748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea751b9551efea40bede5e5a66cb415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6479672269097394338
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,6 +199,7 @@ MonoBehaviour:
   - {fileID: 6479672269097394337}
   - {fileID: 6479672269097394341}
   - {fileID: 6479672269097394362}
+  _characterSpawnEvent: {fileID: 11400000, guid: 3da9bbfda8e0d804a95d731471b29da3, type: 2}
   EnableLogic: 1
 --- !u!114 &7000070658009728498
 MonoBehaviour:
@@ -250,12 +264,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d40992d7d0b2a8648be215151a516514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mode: 0
-  _maxSize: 50
+  Mode: 0
+  _networkBufferMaxSize: 50
   _pastEntriesCnt: 0
   _futerEntriesCnt: 0
-  _positionSmoothTime: 0.05
+  _localBufferSize: 50
+  _positionSmoothTime: 0.1
+  _rotationSmoothTime: 0.1
+  _correctPositionThreadHold: 0.5
+  _correctRotationThreadHold: 10
   _requestDisplay: {fileID: 11400000, guid: ccfc08160c221a045a45e5a48f930b50, type: 2}
+  CorrectPosition: {x: 0, y: 0, z: 0}
+  CorrectRotation: {x: 0, y: 0, z: 0}
+  PredictPosition: {x: 0, y: 0, z: 0}
+  PredictRotation: {x: 0, y: 0, z: 0}
+  FixDeltaPosition: {x: 0, y: 0, z: 0}
+  FixDeltaRotation: {x: 0, y: 0, z: 0}
 --- !u!1001 &6479672270165582403
 PrefabInstance:
   m_ObjectHideFlags: 0

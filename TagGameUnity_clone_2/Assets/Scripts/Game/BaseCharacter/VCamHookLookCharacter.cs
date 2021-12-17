@@ -36,7 +36,6 @@ namespace Tag.Game.Character{
             // check this character visual belong to local user
             CharacterObject characterObject = character.GetComponent<CharacterObject>(); 
             ulong localUserId = PlayerManager.Singleton.LocalUserId;
-            Debug.Log($"{characterObject.OwnerUserId.Value}, {localUserId}");
             if(characterObject.OwnerUserId.Value == localUserId){
                 GetComponent<CinemachineVirtualCamera>().Follow = characterObject.PlayerVCamTarget;
             }

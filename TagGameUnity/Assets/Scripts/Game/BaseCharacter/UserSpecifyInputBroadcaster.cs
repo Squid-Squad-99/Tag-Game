@@ -101,7 +101,6 @@ namespace Tag.Game.Character{
         {
             if(IsThisUserInput(_characterObject.OwnerUserId.Value)){
                 RequestDebugDisplayChannel.RaiseEvent($"Pos: {transform.position}");
-                Debug.Log("user Look");
                 InputLookEvent.Invoke(inputValue);
             }
         }
@@ -143,7 +142,6 @@ namespace Tag.Game.Character{
         {
             if(IsThisUserInput(userId)){
                 RequestDebugDisplayChannel.RaiseEvent($"Pos: {transform.position}");
-                Debug.Log("user Look");
                 // wait to sync client time
                 await SyncClientTime(clientLocalTime);
                 // invoke event
