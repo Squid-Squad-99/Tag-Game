@@ -13,6 +13,9 @@ namespace RigiArcher.CharacterInput
     public interface ICharacterInputBroadcaster
     {
         public UnityEvent InputJumpEvent { get;}
+        public UnityEvent InputFireEvent { get;}
+        public UnityEvent InputAttackEvent { get;}
+        public UnityEvent InputEquipEvent {get;}
         public UnityEvent<Vector2> InputLookEvent { get;}
         public UnityEvent<Vector2> InputMoveEvent { get;}
     }

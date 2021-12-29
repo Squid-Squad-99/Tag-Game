@@ -21,16 +21,22 @@ namespace Tag.Game.Character{
         [Header("listening Channel")]
         [SerializeField] NetworkVoidEventChannelSO UserFireChannel;
         [SerializeField] NetworkVoidEventChannelSO UserJumpChannel;
+        [SerializeField] NetworkVoidEventChannelSO UserAttackChannel;
+        [SerializeField] NetworkVoidEventChannelSO UserEquipChannel;
         [SerializeField] NetworkVector2EventChannelSO UserLookChannel;
         [SerializeField] NetworkVector2EventChannelSO UserMoveChannel;
         [SerializeField] VoidEventChannelSO LocalFireChannel;
         [SerializeField] VoidEventChannelSO LocalJumpChannel;
+        [SerializeField] VoidEventChannelSO LocalAttackChannel;
+        [SerializeField] VoidEventChannelSO LocalEquipChannel;
         [SerializeField] Vector2EventChannelSO LocalLookChannel;
         [SerializeField] Vector2EventChannelSO LocalMoveChannel;
 
         [Header("Broadcasting Event")]
         [SerializeField] UnityEvent _inputFireEvent;
         [SerializeField] UnityEvent _inputJumpEvent;
+        [SerializeField] UnityEvent _inputAttackEvent;
+        [SerializeField] UnityEvent _inputEquipEvent;
         [SerializeField] UnityEvent<Vector2> _inputLookEvent;
         [SerializeField] UnityEvent<Vector2> _inputMoveEvent;
 
@@ -45,6 +51,12 @@ namespace Tag.Game.Character{
 
         public UnityEvent<Vector2> InputMoveEvent => _inputMoveEvent;
 
+        public UnityEvent InputFireEvent => _inputFireEvent;
+
+        public UnityEvent InputAttackEvent => _inputAttackEvent;
+
+        public UnityEvent InputEquipEvent => _inputEquipEvent;
+
         private void OnEnable() {
             // cache character Object
             _characterObject = GetComponent<CharacterObject>();
@@ -53,6 +65,8 @@ namespace Tag.Game.Character{
                 // listen user input channels
                 UserFireChannel.OnEventRaised += OnUserFire;
                 UserJumpChannel.OnEventRaised += OnUserJump;
+                UserAttackChannel.OnEventRaised += OnUserAttack;
+                UserEquipChannel.OnEventRaised += OnUserEquip;
                 UserLookChannel.OnEventRaised += OnUserLook;
                 UserMoveChannel.OnEventRaised += OnUserMove;
             }
@@ -60,6 +74,8 @@ namespace Tag.Game.Character{
                 // listen user input channels
                 LocalFireChannel.OnEventRaised += OnLocalFire;
                 LocalJumpChannel.OnEventRaised += OnLocalJump;
+                LocalAttackChannel.OnEventRaised += OnLocalAttack;
+                LocalEquipChannel.OnEventRaised += OnLocalEquip;
                 LocalLookChannel.OnEventRaised += OnLocalLook;
                 LocalMoveChannel.OnEventRaised += OnLocalMove;
             }
@@ -69,12 +85,16 @@ namespace Tag.Game.Character{
             if(NetworkManager.Singleton.IsServer){
                 UserFireChannel.OnEventRaised -= OnUserFire;
                 UserJumpChannel.OnEventRaised -= OnUserJump;
+                UserAttackChannel.OnEventRaised -= OnUserAttack;
+                UserEquipChannel.OnEventRaised -= OnUserEquip;
                 UserLookChannel.OnEventRaised -= OnUserLook;
                 UserMoveChannel.OnEventRaised -= OnUserMove;
             }
             else{
                 LocalFireChannel.OnEventRaised -= OnLocalFire;
                 LocalJumpChannel.OnEventRaised -= OnLocalJump;
+                LocalAttackChannel.OnEventRaised -= OnLocalAttack;
+                LocalEquipChannel.OnEventRaised -= OnLocalEquip;
                 LocalLookChannel.OnEventRaised -= OnLocalLook;
                 LocalMoveChannel.OnEventRaised -= OnLocalMove;
             }
@@ -94,6 +114,20 @@ namespace Tag.Game.Character{
         {
             if(IsThisUserInput(_characterObject.OwnerUserId.Value)){
                 InputJumpEvent.Invoke();
+            }
+        }
+
+        private void OnLocalEquip()
+        {
+            if(IsThisUserInput(_characterObject.OwnerUserId.Value)){
+                _inputEquipEvent.Invoke();
+            }
+        }
+
+        private void OnLocalAttack()
+        {
+            if(IsThisUserInput(_characterObject.OwnerUserId.Value)){
+                _inputAttackEvent.Invoke();
             }
         }
 
@@ -135,6 +169,27 @@ namespace Tag.Game.Character{
                 await SyncClientTime(clientLocalTime);
                 // invoke event
                 InputJumpEvent.Invoke();
+            }
+        }
+
+
+        private async void OnUserEquip(ulong userId, double clientLocalTime)
+        {
+            if(IsThisUserInput(userId)){
+                // wait to sync client time
+                await SyncClientTime(clientLocalTime);
+                // invoke event
+                InputEquipEvent.Invoke();
+            }
+        }
+
+        private async void OnUserAttack(ulong userId, double clientLocalTime)
+        {
+            if(IsThisUserInput(userId)){
+                // wait to sync client time
+                await SyncClientTime(clientLocalTime);
+                // invoke event
+                InputAttackEvent.Invoke();
             }
         }
         

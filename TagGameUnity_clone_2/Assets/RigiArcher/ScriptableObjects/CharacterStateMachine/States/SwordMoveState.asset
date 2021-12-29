@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f55c46f9a65494d40bdfb26806a528fc, type: 3}
+  m_Name: SwordMoveState
+  m_EditorClassIdentifier: 
+  ActionSOs:
+  - {fileID: 11400000, guid: da9469cbc93c1564ca65aad521d6f044, type: 2}
+  - {fileID: 11400000, guid: 8239dcd2dd6515b41b588e49c023a23e, type: 2}
+  - {fileID: 11400000, guid: 39cacc5f9bb2baa4c9d4e88ae58f377e, type: 2}
+  - {fileID: 11400000, guid: 58a3e8ce366d2f14ea3dfdccae0fa48a, type: 2}
+  - {fileID: 11400000, guid: 43a5aa56daca3774ca5b86e25792e522, type: 2}
+  - {fileID: 11400000, guid: cae601d5a99b466488b2afc36065b294, type: 2}
+  - {fileID: 11400000, guid: a295f075254212141b584c640fdbee38, type: 2}
+  - {fileID: 11400000, guid: 314c8c54c6365e64486686c63194162c, type: 2}
+  - {fileID: 11400000, guid: 7a8f348eb142167449671d6b2fd1be13, type: 2}

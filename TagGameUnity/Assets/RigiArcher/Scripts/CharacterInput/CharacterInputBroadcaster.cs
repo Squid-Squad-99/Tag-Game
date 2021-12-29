@@ -10,11 +10,18 @@ namespace RigiArcher.CharacterInput
     public class CharacterInputBroadcaster : MonoBehaviour, ICharacterInputBroadcaster
     {
 
+        public UnityEvent InputFireEvent => _inputFireEvent;
         public UnityEvent InputJumpEvent => _inputJumpEvent;
         public UnityEvent<Vector2> InputLookEvent => _inputLookEvent;
         public UnityEvent<Vector2> InputMoveEvent => _inputMoveEvent;
 
+        public UnityEvent InputAttackEvent => _inputAttachEvent;
+        public UnityEvent InputEquipEvent => _inputEquipEvent;
+
         [SerializeField] UnityEvent _inputJumpEvent;
+        [SerializeField] UnityEvent _inputFireEvent;
+        [SerializeField] UnityEvent _inputAttachEvent;
+        [SerializeField] UnityEvent _inputEquipEvent;
         [SerializeField] UnityEvent<Vector2> _inputLookEvent;
         [SerializeField] UnityEvent<Vector2> _inputMoveEvent;
 
@@ -43,6 +50,17 @@ namespace RigiArcher.CharacterInput
         void OnJump(InputValue inputValue)
         {
             InputJumpEvent.Invoke();
+        }
+
+        void OnFire(InputValue inputValue){
+            InputFireEvent.Invoke();
+        }
+        void OnAttack(InputValue inputValue){
+            InputAttackEvent.Invoke();
+        }
+
+        void OnEquip(InputValue inputValue){
+            InputEquipEvent.Invoke();
         }
 
         private void Update() {

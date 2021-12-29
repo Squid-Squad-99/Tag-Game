@@ -31,10 +31,10 @@ namespace Tag.Game.Character{
                     // is client and not own this character
                     if(IsClient && GetComponent<CharacterObject>().OwnedByLocalUser == false){
                         TurnOffLogic();
-                        GetComponent<SyncTransform>().Mode = SyncTransform.ModeEnum.Sync;
+                        if(GetComponent<SyncTransform>()) GetComponent<SyncTransform>().Mode = SyncTransform.ModeEnum.Sync;
                     }
                     else{
-                        GetComponent<SyncTransform>().Mode = SyncTransform.ModeEnum.PredictionCorrection;
+                        if(GetComponent<SyncTransform>()) GetComponent<SyncTransform>().Mode = SyncTransform.ModeEnum.PredictionCorrection;
                     }
                     // onHook event
                     _characterSpawnEvent.OnEventRaised -= LogicSwitch;
@@ -55,7 +55,7 @@ namespace Tag.Game.Character{
             }
             // if have rigibody turn to kinematic
             if(TryGetComponent<Rigidbody>(out Rigidbody rigibody)) rigibody.isKinematic = true;
-            if(TryGetComponent<Collider>(out Collider collider)) collider.enabled = false;
+            // if(TryGetComponent<Collider>(out Collider collider)) collider.enabled = false;
 
             EnableLogic = false;
         }

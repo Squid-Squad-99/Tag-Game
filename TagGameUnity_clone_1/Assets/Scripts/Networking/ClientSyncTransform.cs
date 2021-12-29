@@ -5,18 +5,28 @@ using Unity.Netcode;
 using System;
 using System.Threading.Tasks;
 
+using Tag.Game.Character;
+
 public class ClientSyncTransform : NetworkBehaviour
 {
+    // reference
+    private CharacterObject _characterObject;
+    
+    private void Awake() {
+        _characterObject = GetComponentInParent<CharacterObject>();
+        Debug.Assert(_characterObject != null);
+    }
+
     public override void OnNetworkSpawn()
     {
-        if(IsClient){
+        if(IsClient && _characterObject.OwnedByLocalUser){
             NetworkManager.Singleton.NetworkTickSystem.Tick += OnTickClient;
         }
     }
 
     public override void OnNetworkDespawn()
     {
-        if(IsClient){
+        if(IsClient && _characterObject.OwnedByLocalUser){
             NetworkManager.Singleton.NetworkTickSystem.Tick -= OnTickClient;
         }
     }
@@ -24,11 +34,11 @@ public class ClientSyncTransform : NetworkBehaviour
     private void OnTickClient()
     {
         // give server current transform value
-        GiveTransformServerRpc(transform.position, transform.rotation, NetworkManager.LocalTime.Time);
+        GiveTransformServerRpc(transform.position, transform.rotation.eulerAngles, NetworkManager.LocalTime.Time);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private async void GiveTransformServerRpc(Vector3 position, Quaternion rotation, double localTime){
+    private async void GiveTransformServerRpc(Vector3 position, Vector3 rotation, double localTime){
         double waitTime = localTime - NetworkManager.ServerTime.Time;
         if(waitTime > 0){
             // wait to sync
@@ -36,7 +46,7 @@ public class ClientSyncTransform : NetworkBehaviour
         }
         
         // set transfrom
-        if(transform.position != position) transform.position = position;
-        if(transform.rotation != rotation) transform.rotation = rotation;
+        transform.position = position;
+        transform.rotation = Quaternion.Euler(rotation);
     }
 }

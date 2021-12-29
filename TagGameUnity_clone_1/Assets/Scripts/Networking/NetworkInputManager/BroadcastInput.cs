@@ -21,12 +21,16 @@ namespace Tag.NetworkInputManager{
         [SerializeField] Vector2EventChannelSO _onLookChannel;
         [SerializeField] VoidEventChannelSO _onJumpChannel;
         [SerializeField] VoidEventChannelSO _onFireChannel;
+        [SerializeField] VoidEventChannelSO _onAttackChannel;
+        [SerializeField] VoidEventChannelSO _onEquipChannel;
 
         [Header("BroadCast Network Event")]
         [SerializeField] NetworkVector2EventChannelSO _userMoveChannel;
         [SerializeField] NetworkVector2EventChannelSO _userLookChannel;
         [SerializeField] NetworkVoidEventChannelSO _userJumpChannel;
         [SerializeField] NetworkVoidEventChannelSO _userFireChannel;
+        [SerializeField] NetworkVoidEventChannelSO _userAttackChannel;
+        [SerializeField] NetworkVoidEventChannelSO _userEquipChannel;
 
 
         [Header("Setting")]
@@ -119,6 +123,28 @@ namespace Tag.NetworkInputManager{
         private void RaiseNetFireChannelServerRpc(ulong clientId, double localTime){
             Log("server Raise user fire channel");
             _userFireChannel.RaiseEvent(PlayerManager.Singleton.GetUserIdByClientId(clientId), localTime);
+        }
+        
+        public void OnAttack(InputValue inputValue){
+            _onAttackChannel.RaiseEvent();
+            
+            RaiseNetAttackChannelServerRpc(_networkManager.LocalClientId, _networkTimeSystem.LocalTime);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void RaiseNetAttackChannelServerRpc(ulong clientId, double localTime){
+            _userAttackChannel.RaiseEvent(PlayerManager.Singleton.GetUserIdByClientId(clientId), localTime);
+        }
+        
+        public void OnEquip(InputValue inputValue){
+            _onEquipChannel.RaiseEvent();
+            
+            RaiseNetEquipChannelServerRpc(_networkManager.LocalClientId, _networkTimeSystem.LocalTime);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void RaiseNetEquipChannelServerRpc(ulong clientId, double localTime){
+            _userEquipChannel.RaiseEvent(PlayerManager.Singleton.GetUserIdByClientId(clientId), localTime);
         }
     }
     
