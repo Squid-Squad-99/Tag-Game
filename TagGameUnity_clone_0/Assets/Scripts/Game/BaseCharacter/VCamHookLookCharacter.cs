@@ -32,7 +32,6 @@ namespace Tag.Game.Character{
         private void HookToLocalUserCharacter(GameObject character)
         {
             if(NetworkManager.Singleton.IsServer) return;
-            Debug.Log("Hook character");
             // check this character visual belong to local user
             CharacterObject characterObject = character.GetComponent<CharacterObject>(); 
             ulong localUserId = PlayerManager.Singleton.LocalUserId;

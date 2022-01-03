@@ -147,14 +147,18 @@ namespace Tag.Game.Managers{
             MatchMakingSDK.Ticket ticket = _authIdToTicketDict[authId];
 
             // add player
-            AddPlayer(ticket.UserId, new PlayerConfig(clientId));
+            AddPlayer(ticket.UserId, new PlayerConfig(clientId, ticket));
         }
     }
 
     public struct PlayerConfig{
         public ulong ClientId; 
-        public PlayerConfig(ulong clientId){
+        public string Username;
+        public int Rank;
+        public PlayerConfig(ulong clientId, MatchMakingSDK.Ticket ticket){
             ClientId = clientId;
+            Username = ticket.Username;
+            Rank = ticket.Rank;
         }
     }
 

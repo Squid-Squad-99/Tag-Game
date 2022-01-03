@@ -20,10 +20,14 @@ namespace Tag.Backend{
 
         public struct Ticket{
             public ulong UserId;
+            public string Username;
+            public int Rank;
             public GameModeEnum GameMode;
 
-            public Ticket(ulong userId, GameModeEnum gameMode){
+            public Ticket(ulong userId, string username, int rank, GameModeEnum gameMode){
                 UserId = userId;
+                Username = username;
+                Rank = rank;
                 GameMode = gameMode;
             }
             
@@ -70,8 +74,8 @@ namespace Tag.Backend{
         static public async Task<Dictionary<string, Ticket>> GetAuthIdToTicketDict(string gameServerId){
             await Task.Delay(1000);
             var dic = new Dictionary<string, Ticket>();
-            dic.Add("0001", new Ticket(1111, GameModeEnum.GrabBall)); 
-            dic.Add("0002", new Ticket(2222, GameModeEnum.GrabBall)); 
+            dic.Add("0001", new Ticket(1111,"Player1", 942, GameModeEnum.GrabBall)); 
+            dic.Add("0002", new Ticket(2222, "Player2", 455, GameModeEnum.GrabBall)); 
             return dic;
         }
 

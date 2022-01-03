@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Camera Movement By Input Action SO
   m_EditorClassIdentifier: 
   MouseSensitivity: 2
-  TopClamp: 59
-  BottomClamp: 60
+  TopClamp: 75
+  BottomClamp: 76
   IsNetworking: 1
   EnableOnServer: 0
   EnableOnClient: 1

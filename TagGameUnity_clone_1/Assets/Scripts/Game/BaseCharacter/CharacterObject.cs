@@ -14,8 +14,16 @@ namespace Tag.Game.Character{
     /// </summary>
     public class CharacterObject : NetworkBehaviour
     {
-        public NetworkVariable<ulong> OwnerUserId;
+        public NetworkVariable<ulong> OwnerUserId = new NetworkVariable<ulong>();
+        public NetworkList<char> OwnerUsername = new NetworkList<char>(); 
+        public NetworkVariable<int> OwnerUserRank = new NetworkVariable<int>();
+        public CharacterTypeEnum CharacterType;
         public bool OwnedByLocalUser;
+        public enum CharacterTypeEnum{
+            None,
+            Human,
+            Ghost,
+        }
         
         [Header("Broadcast Channel")]
         [SerializeField] GameObjectEventChannelSO _characterGiveToUserChannel;
@@ -24,9 +32,14 @@ namespace Tag.Game.Character{
 
         [Header("Referecence")]
         public Transform PlayerVCamTarget;
-        public void GiveToUser(ulong userId){
+        public void GiveToUser(ulong userId, PlayerConfig playerConfig){
             // set user id
             OwnerUserId.Value = userId;
+
+            // set player config
+            OwnerUsername.Clear();
+            for(int i = 0; i < playerConfig.Username.Length; i++) OwnerUsername.Add(playerConfig.Username[i]);
+            OwnerUserRank.Value = playerConfig.Rank;
         }
 
         private void OnEnable() {

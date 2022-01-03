@@ -1,23 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 namespace RigiArcher.StateMachineElement{
 
 
-    public class StateMachine : MonoBehaviour
+    public class StateMachine : NetworkBehaviour
     {
         [Tooltip("The first StateSO will be initial state")]
         [SerializeField] List<StateSO> _stateSOs; 
+        [SerializeField] StateSO GameStartState;
+        public StateSO Health0State;
         private List<State> _states;
         private Dictionary<StateSO, State> _stateSO2StateDict;
         private Dictionary<State, StateSO> _state2SODict;
 
         [Header("State")]
         private State _currentState;
+        public State PreviousState;
         public State CurrentState{
             get{return _currentState;}
             set{
+                if(PreviousState == null) PreviousState = value;
+                else {PreviousState = _currentState;}
                 _currentState = value;
                 _currentStateSO = _state2SODict[value];
             }
@@ -62,11 +69,30 @@ namespace RigiArcher.StateMachineElement{
             // init state
             CurrentState = _states[0];
             CurrentState.OnStateEnter();
+
+            HookGameEvent();
+        }
+
+        private void HookGameEvent()
+        {
+            if(GameManager.Singleton == null) return;
+
+            GameManager.Singleton.StartGameEvent += () => {
+                SwitchState(GameStartState);
+            };
+
         }
 
         public void SwitchState(StateSO newStateSO){
             // get new state
             State newState = _stateSO2StateDict[newStateSO];
+            // state change
+            CurrentState.OnStateExit();
+            CurrentState = newState;
+            CurrentState.OnStateEnter();
+        }
+
+        public void SwitchState(State newState){
             // state change
             CurrentState.OnStateExit();
             CurrentState = newState;

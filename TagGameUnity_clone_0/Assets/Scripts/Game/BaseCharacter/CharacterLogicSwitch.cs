@@ -46,7 +46,6 @@ namespace Tag.Game.Character{
         }
 
         private void TurnOffLogic(){
-            Debug.Log($"IS owen {GetComponent<CharacterObject>().OwnedByLocalUser}");
             if(GetComponent<CharacterObject>().OwnedByLocalUser == true) return;
 
             // turn of component

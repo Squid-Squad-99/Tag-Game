@@ -38,6 +38,11 @@ namespace RigiArcher.CharacterAction
 
         public override void OnStateEnter()
         {
+            if(_magicManager.CanCastMagic() == false){
+                ThisStateMachine.SwitchState(ThisStateMachine.PreviousState);
+                return;
+            }
+
             // to base state when spell done
             _magicManager.CurrentEquipedMagic.CastMagicFinish.AddListener(()=> {
                 Debug.Log("cast magic finish");

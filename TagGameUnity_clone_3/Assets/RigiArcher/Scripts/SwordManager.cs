@@ -5,8 +5,18 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Threading.Tasks;
 
-public class SwordManager : NetworkBehaviour
+using Tag.Game.Character;
+
+public interface IAttacker
 {
+    public int Power{get;}
+}
+
+public class SwordManager : NetworkBehaviour, IAttacker
+{
+    [SerializeField]
+    private int _power;
+    public int Power => _power;
     [Header("Reference")]
     [SerializeField] GameObject _swordGameObject;
 
@@ -20,10 +30,12 @@ public class SwordManager : NetworkBehaviour
     }
 
     // data
+    private NetworkVariable<float> cooldownDelta = new NetworkVariable<float>(0f);
 
     // reference
     private Collider _swordCollider;
     private MeshSocketManager _meshSocketManager;
+    private CharacterObject _characterObject;
     private Animator _animator;
     private int _animParamEquipSword;
     private int _animParamUseSword;
@@ -34,58 +46,77 @@ public class SwordManager : NetworkBehaviour
         _meshSocketManager = GetComponent<MeshSocketManager>();
         _animator = GetComponent<Animator>();
         _swordCollider = _swordGameObject.GetComponent<Collider>();
+        _characterObject = GetComponent<CharacterObject>();
 
         // anim param
         _animParamEquipSword = Animator.StringToHash("EquipSword");
         _animParamUseSword = Animator.StringToHash("UseSword");
 
-        // 
         _meshSocketManager.Attach(_swordGameObject.transform, MeshSocketManager.SocketIdEnum.Back);
+    }
+
+    private void Update() {
+        if(!IsServer) return;
+
+        if(cooldownDelta.Value > 0) {
+            cooldownDelta.Value -= Time.deltaTime;
+        }
     }
 
     public void EquipSword(){
         // animate equip
         _animator.SetBool(_animParamEquipSword, true);
-        NetActionClientRpc(NetActionId.Equip, NetworkManager.Singleton.ServerTime.Time);
+        if(IsServer) NetActionClientRpc(NetActionId.Equip, NetworkManager.Singleton.ServerTime.Time);
     }
 
     public void OnAnimationEquipSword(){
         _meshSocketManager.Attach(_swordGameObject.transform, MeshSocketManager.SocketIdEnum.RightHand);
-        NetActionClientRpc(NetActionId.AnimEquip, NetworkManager.Singleton.ServerTime.Time);
+        if(IsServer) NetActionClientRpc(NetActionId.AnimEquip, NetworkManager.Singleton.ServerTime.Time);
     }
 
     public void OnAnimationUnEquipSword(){
         _meshSocketManager.Attach(_swordGameObject.transform, MeshSocketManager.SocketIdEnum.Back);
-        NetActionClientRpc(NetActionId.AnimUnEquip, NetworkManager.Singleton.ServerTime.Time);
+        if(IsServer) NetActionClientRpc(NetActionId.AnimUnEquip, NetworkManager.Singleton.ServerTime.Time);
+    }
+
+    public void OnAnimationStartUseSword(){
+        _swordCollider.enabled = true;
     }
 
     public void OnAnimationDoneUseSword(){
         _animator.SetBool(_animParamUseSword, false);
         _swordCollider.enabled = false;
-        NetActionClientRpc(NetActionId.AnimDoneUse, NetworkManager.Singleton.ServerTime.Time);
+        if(IsServer) NetActionClientRpc(NetActionId.AnimDoneUse, NetworkManager.Singleton.ServerTime.Time);
     }
 
     public void UnEquipSword(){
         // animate Unequip
         _animator.SetBool(_animParamEquipSword, false);
-        NetActionClientRpc(NetActionId.UnEquip, NetworkManager.Singleton.ServerTime.Time);
+        if(IsServer) NetActionClientRpc(NetActionId.UnEquip, NetworkManager.Singleton.ServerTime.Time);
     }
 
     public void UseSword(){
         // animate use sword
         _animator.SetBool(_animParamUseSword, true);
-        _swordCollider.enabled = true;
-        NetActionClientRpc(NetActionId.Use, NetworkManager.Singleton.ServerTime.Time);
+        if(IsServer) NetActionClientRpc(NetActionId.Use, NetworkManager.Singleton.ServerTime.Time);
     }
 
     private void OnTriggerEnter(Collider other) {
-        // check didn't hit ourseft
-        if(other.gameObject == gameObject) return;
-        Debug.Log("sword hit");
+        // only can hit different character type
+        CharacterObject attackC = GetComponent<CharacterObject>(), victimC = other.GetComponent<CharacterObject>();
+
+        if(victimC != null && attackC.CharacterType != victimC.CharacterType){
+            Debug.Log("sword hit");
+            if(HitManager.Singleton != null) HitManager.Singleton.HitHandle(attackC, victimC);
+            // one swipe can only hit one character 
+            _swordCollider.enabled = false;
+        }
+
     }
 
     [ClientRpc]
     private async void NetActionClientRpc(NetActionId netAction, double serverTime){
+        if(_characterObject.OwnedByLocalUser == true) return;
         double waitTime = serverTime - NetworkManager.ServerTime.Time;
         if(waitTime > 0) await Task.Delay((int)(waitTime * 1000));
 

@@ -19,6 +19,7 @@ namespace RigiArcher.Magic{
         [Header("Magic Basic Setting")]
         [SerializeField] float _coolDownTime;
         [SerializeField] float _castMagicTime;
+        public float ManaCost;
 
         [Header("Magic Basic data")]
         [SerializeField] float _coolDownTimeDelta;

@@ -50,7 +50,7 @@ namespace RigiArcher.CharacterAction{
 
         private void OnInputFire()
         {
-            if(_magicManager.CurrentEquipedMagic.CanCastMagic() == false){
+            if(_magicManager.CanCastMagic() == false){
                 Debug.Log("[to cast magic action] still cool down");
             }
             else{

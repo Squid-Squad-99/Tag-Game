@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1448530133472351670}
   - component: {fileID: 3466949328693731385}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RopeGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,8 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _magicId: 1
-  _coolDownTime: 1
+  _coolDownTime: 0
   _castMagicTime: 0.4
+  ManaCost: 3
   _coolDownTimeDelta: 0
   _castMagicTimeDelta: 0
   _isCasting: 0
@@ -58,7 +59,7 @@ MonoBehaviour:
   SpellFinish:
     m_PersistentCalls:
       m_Calls: []
-  _ropeSpeed: 20
+  _ropeSpeed: 40
   _ropePrefab: {fileID: 7303095770021779588, guid: eefc78936cbb933478443a6c36d59d69, type: 3}
 --- !u!1 &2148897697296496068
 GameObject:
@@ -72,7 +73,7 @@ GameObject:
   - component: {fileID: 1202098008453811969}
   - component: {fileID: 5146253488182180035}
   - component: {fileID: 7661507513094262321}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

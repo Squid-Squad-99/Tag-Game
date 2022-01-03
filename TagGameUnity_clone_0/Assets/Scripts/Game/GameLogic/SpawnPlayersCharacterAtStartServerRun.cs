@@ -31,21 +31,7 @@ namespace Tag.Game.GameLogic{
         [SerializeField] Transform _defaultSpawnPoints; 
 
 
-
-        void Awake()
-        {   
-            //only run at server
-            if(NetworkManager.Singleton == null || NetworkManager.Singleton.IsServer == false) return;
-
-            // Spawn player's character on all client load game scene
-            UnityAction<string> SpawnPlayersCharacter = null;
-
-            SpawnPlayersCharacter = async (sceneGame) => {
-                // check is game scene
-                if(sceneGame != SceneManager.GetActiveScene().name) return;
-
-                // wait a sec to let all client set active scene
-                await Task.Delay(500);
+        private void SpawnCharacters(){
 
                 var SpawnPointsEnumerator = _defaultSpawnPoints.GetEnumerator();
 
@@ -65,8 +51,27 @@ namespace Tag.Game.GameLogic{
                     GameObject logic = Instantiate(_characterPrefab, spawnPoint.position, _characterPrefab.transform.rotation);
 
                     // give to this user
-                    logic.GetComponent<CharacterObject>().GiveToUser(userId);
+                    logic.GetComponent<CharacterObject>().GiveToUser(userId, playerConfig);
                 }            
+        }
+
+
+        void Awake()
+        {   
+            //only run at server
+            if(NetworkManager.Singleton == null || NetworkManager.Singleton.IsServer == false) return;
+
+            // Spawn player's character on all client load game scene
+            UnityAction<string> SpawnPlayersCharacter = null;
+
+            SpawnPlayersCharacter = async (sceneGame) => {
+                // check is game scene
+                if(sceneGame != SceneManager.GetActiveScene().name) return;
+
+                // wait a sec to let all client set active scene
+                await Task.Delay(500);
+
+                SpawnCharacters();
 
                 _onAllClientLoadSceneChannel.OnEventRaised -= SpawnPlayersCharacter;
             };

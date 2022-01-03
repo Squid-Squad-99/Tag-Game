@@ -175,12 +175,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36cccd4aad1f09d46a20c26fff4d2931, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SuckAcceleration: 8
+  SuckAcceleration: 12
   InitialSpeed: 13
   ToInitSpeedSmoothTime: 0
   SuckInitTime: 0
-  MaxSpeed: 20
-  MaxHeightSpeed: 6
+  MaxHeightSpeed: 12
   _headPos: {fileID: 6358241288278510241}
   _lineRenderer: {fileID: 4625588408214226185}
 --- !u!54 &5941778492298443211

@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 using RigiArcher;
 using RigiArcher.MeshSocket;
+using System.Threading.Tasks;
+
+using Tag.Game.Character;
 
 namespace RigiArcher.Magic{
 
@@ -12,16 +16,23 @@ namespace RigiArcher.Magic{
     /// provide Equip Method to equip magic to character
     /// 1. basic casting animation
     /// </summary>
-    public class MagicManager : MonoBehaviour
+    public class MagicManager : NetworkBehaviour
     {
         public enum MagicIdEnum{
             None,
             Rope,
         }
 
+        public enum NetActionId{
+            CastMagic,
+            CancelMagic,
+        }
+
         [Header("Setting")]
         [SerializeField] MagicIdEnum _InitEquippedMagicId;
         [SerializeField] float _AnimLayerSmoothTime;
+        public float MaxMana;
+        public float ManaRegenerateSpeed;
         
         [Header("Data")]
         [SerializeField] MagicIdEnum _currentEquippedMagicId;
@@ -29,9 +40,11 @@ namespace RigiArcher.Magic{
 
         // data
         private Dictionary<MagicIdEnum, MagicBase> _magicMap = new Dictionary<MagicIdEnum, MagicBase>();
+        public NetworkVariable<float> CurrentMana;
 
         // reference
         private MeshSocketManager _meshSocketManager;
+        private CharacterObject _characterObject;
         private RigiArcherObject _rigiArcherObject;
         private Animator _animator;
         private int _leftArmAnimLayerIndex;
@@ -44,6 +57,7 @@ namespace RigiArcher.Magic{
             _meshSocketManager = GetComponent<MeshSocketManager>();
             _animator = GetComponent<Animator>();
             _rigiArcherObject = GetComponent<RigiArcherObject>();
+            _characterObject = GetComponent<CharacterObject>();
             _leftArmAnimLayerIndex = _animator.GetLayerIndex("LeftArm");
             _animParamCastMagicId = Animator.StringToHash("CastMagic");
 
@@ -58,6 +72,32 @@ namespace RigiArcher.Magic{
         private void Start() {
             // set to init equipped maigic
             Equip(_InitEquippedMagicId);
+
+            if(IsServer){
+                GameManager.Singleton.StartGameEvent += () => {
+                    StartCoroutine("ManaCountDown");
+                };
+                GameManager.Singleton.GameEndEvent += (reason) => {
+                    StopCoroutine("ManaCountDown");
+                };
+            }
+        }
+
+        private IEnumerator ManaCountDown(){
+            CurrentMana.Value = 0;
+            while(true){
+                yield return null;
+                if(CurrentMana.Value < MaxMana){
+                    CurrentMana.Value += Time.deltaTime * ManaRegenerateSpeed;
+                }
+            }
+        }
+
+        public override void OnNetworkSpawn(){
+            // init data
+            if(IsServer){
+                CurrentMana.Value = 0;
+            }
         }
         
         public void Equip(MagicIdEnum magicId){
@@ -78,26 +118,56 @@ namespace RigiArcher.Magic{
             // check have equip 
             if(_currentEquippedMagicId == MagicIdEnum.None) Debug.LogWarning("[Magic Manger] no magic equip");
 
-            if(CurrentEquipedMagic.CanCastMagic())
+            if(CanCastMagic())
             {
-                // hook magic's events
-                CurrentEquipedMagic.CastMagicFinish.AddListener(OnCastMagicFinish);
-                CurrentEquipedMagic.SpellFinish.AddListener(OnSpellMagicFinish);
-                // play cast magic animation for character
-                PlayCastMagicAnimation();
-                // cast magic
-                CurrentEquipedMagic.CastMagic();
+                CastMaigcNoneCheck();
+                if(IsServer) NetActionClientRpc(NetActionId.CastMagic, NetworkManager.Singleton.ServerTime.Time);
             }
             else
             {
-                Debug.Log("[MagicManager] can't cast magic, (not cool down yet");
+                Debug.LogError("[MagicManager] can't cast magic, (not cool down yet");
             }
 
         }  
 
+        private void CastMaigcNoneCheck(){
+            // hook magic's events
+            CurrentEquipedMagic.CastMagicFinish.AddListener(OnCastMagicFinish);
+            CurrentEquipedMagic.SpellFinish.AddListener(OnSpellMagicFinish);
+            // play cast magic animation for character
+            PlayCastMagicAnimation();
+            // cast magic
+            CurrentEquipedMagic.CastMagic();
+            // mana use
+            if(IsServer) CurrentMana.Value -= CurrentEquipedMagic.ManaCost;
+        }
+
+        public bool CanCastMagic(){
+            return CurrentEquipedMagic.CanCastMagic() && CurrentMana.Value >= CurrentEquipedMagic.ManaCost;
+        }
+
         public void CancelMagic(){
             CurrentEquipedMagic.CancelMagic();
+            if(IsServer) NetActionClientRpc(NetActionId.CancelMagic, NetworkManager.Singleton.ServerTime.Time);
         } 
+
+        [ClientRpc]
+        private async void NetActionClientRpc(NetActionId netAction, double serverTime){
+            if(_characterObject.OwnedByLocalUser == true) return;
+            double waitTime = serverTime - NetworkManager.ServerTime.Time;
+            if(waitTime > 0) await Task.Delay((int)(waitTime * 1000));
+
+            switch (netAction)
+            {
+                case NetActionId.CastMagic:
+                    CastMaigcNoneCheck();
+                    break;
+                case NetActionId.CancelMagic:
+                    CancelMagic();
+                    break;
+            }
+            
+        }
 
         private void PlayCastMagicAnimation(){
             // play cast magic animation
