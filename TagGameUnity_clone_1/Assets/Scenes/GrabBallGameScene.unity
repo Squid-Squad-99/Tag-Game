@@ -29915,6 +29915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _AllClientLoadSceneEvent: {fileID: 11400000, guid: 4d5b1d2d41977d44293ef1e5c336820c, type: 2}
   _gameFlowState: 0
+  _requestLoadSceneEvent: {fileID: 0}
 --- !u!4 &1365012321
 Transform:
   m_ObjectHideFlags: 0
@@ -30045,7 +30046,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad83b714e44d49449b39c381c4baf0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cameraShakeIntensity: 3
+  _cameraShakeTime: 0.1
   LocalCharacterDealDamage: 0
+  cinemachineVirtualCamera: {fileID: 1867755269}
 --- !u!1001 &1370969711
 PrefabInstance:
   m_ObjectHideFlags: 0

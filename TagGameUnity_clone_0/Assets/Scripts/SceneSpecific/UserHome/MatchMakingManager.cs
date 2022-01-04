@@ -23,34 +23,29 @@ public class MatchMakingManager : MonoBehaviour
     [SerializeField] SceneSO _gameClientBootScene;
 
     [Header("BroadcastChannel")]
-    [SerializeField] VoidEventChannelSO _FindMatchChannel;
+    [SerializeField] VoidEventChannelSO _haveFindMatchChannel;
     [SerializeField] SceneEventChannelSO _requestLoadSceneChannel;
 
-    [Header("ListeningChannel")]
-    [SerializeField] VoidEventChannelSO _startFindMatchChannel;
-
-    private void OnEnable() {
-        _startFindMatchChannel.OnEventRaised += FindMatch;
+    public static MatchMakingManager Singleton;
+    private void Awake() {
+        Singleton = this;
     }
 
-    private void OnDisable() {
-        _startFindMatchChannel.OnEventRaised -= FindMatch;
-    }
 
-    private async void FindMatch(){
+    public async Task FindMatch(){
         // TODO: changable game mode
         MatchMakingSDK.GameModeEnum gameMode = MatchMakingSDK.GameModeEnum.GrabBall;
 
         // await server to find match
-        MatchMakingSDK.MatchInfo match = await MatchMakingSDK.FindMatch(gameMode);
+        MatchMakingSDK.MatchInfo match = await MatchMakingSDK.FindMatch(gameMode, UserHomeUIManager.Singleton.ChoosedCharacter);
 
         // set match info so
         // TODO currently use editor to set
-        // _matchInfo.Set(match.success, match.GameServerIP, match.GameServerPort, match.ConnectionAuthId);
+        _matchInfo.Set(match.success, match.GameServerIP, match.GameServerPort, match.ConnectionAuthId);
 
         if(match.success == true){
             // delegate find match handler
-            _FindMatchChannel.RaiseEvent();
+            _haveFindMatchChannel.RaiseEvent();
             
             // load game scene 
             _requestLoadSceneChannel.RaiseEvent(_gameClientBootScene);

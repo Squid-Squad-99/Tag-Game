@@ -31,6 +31,9 @@ namespace Tag.Login{
         [SerializeField] TMP_InputField _usernameInputField;
         [SerializeField] TMP_InputField _passwordInputField;
         [SerializeField] Button _loginButton;
+        [SerializeField] Button _SignUpButton;
+        [SerializeField] TMP_InputField _SignUpUsernameInputField;
+        [SerializeField] TMP_InputField _SignUpPasswordInputField;
         [SerializeField] SceneSO _userHomeScene;
 
         [Header("Broadcast Event")]
@@ -38,10 +41,12 @@ namespace Tag.Login{
 
         private void OnEnable() {
             _loginButton.onClick.AddListener(OnLoginButtonPress);
+            _SignUpButton.onClick.AddListener(OnSignUpButtonPress);
         }
 
         private void OnDisable() {
             _loginButton.onClick.RemoveListener(OnLoginButtonPress);
+            _SignUpButton.onClick.RemoveListener(OnSignUpButtonPress);
         }
 
         private async void OnLoginButtonPress()
@@ -68,6 +73,21 @@ namespace Tag.Login{
                 LoginFailEvent?.Invoke(username, password);
             }
 
+        }
+
+        private async void OnSignUpButtonPress(){
+            string username = _SignUpUsernameInputField.text;
+            string password = _SignUpPasswordInputField.text;
+
+            bool success = await WebSDK.SignUp(username, password);
+
+            if(success){
+                // go to sign in
+                TitleFlowManager.Singleton.OpenSignIn();
+            }
+            else{
+
+            }
         }
     }
 

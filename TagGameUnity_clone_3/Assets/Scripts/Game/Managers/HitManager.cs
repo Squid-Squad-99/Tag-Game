@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Cinemachine;
 
 using Tag.Game.Character;
+using System.Threading.Tasks;
 
 public class HitManager : NetworkBehaviour
 {
@@ -14,7 +16,14 @@ public class HitManager : NetworkBehaviour
     }
     #endregion
 
+
+    [Header("Setting")]
+    [SerializeField] float _cameraShakeIntensity;
+    [SerializeField] float _cameraShakeTime;
+    [Header("state")]
     public int LocalCharacterDealDamage = 0;
+    [Header("reference")]
+    [SerializeField] CinemachineVirtualCamera cinemachineVirtualCamera;
 
     public void HitHandle(CharacterObject attackter, CharacterObject victim){
         if(IsServer){
@@ -25,8 +34,26 @@ public class HitManager : NetworkBehaviour
             // visual effect
         }
 
+        // attacker is local user
         if(IsClient && attackter == CharacterManager.Singleton.LocalCharacter){
+            // cal total damage
             LocalCharacterDealDamage += attackter.GetComponent<IAttacker>().Power;
         }
+
+        if(IsClient && victim == CharacterManager.Singleton.LocalCharacter){
+            // shake camera
+            ShakeCamera();
+        }
+    }
+
+    private async void ShakeCamera(){
+        CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = 
+            cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = _cameraShakeIntensity;
+
+        await Task.Delay((int)( 1000 * _cameraShakeTime ));
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0f;
+
     }
 }

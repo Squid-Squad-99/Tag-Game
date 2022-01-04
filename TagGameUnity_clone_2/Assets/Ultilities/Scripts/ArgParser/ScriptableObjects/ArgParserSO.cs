@@ -44,7 +44,12 @@ namespace Ultility.ArgParser{
             if(Application.isEditor) arguments = EditorModeArgs;
             _argDict = new Dictionary<string, string>();
             for(int i = 0; i < AddArgList.Count; i++){
-                _argDict.Add(AddArgList[i], arguments[i]);
+                if(i >= arguments.Count){
+                _argDict.Add(AddArgList[i], null);
+                }
+                else{
+                    _argDict.Add(AddArgList[i], arguments[i]);
+                }
             }
         }
 
