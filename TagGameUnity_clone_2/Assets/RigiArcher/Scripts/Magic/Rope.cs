@@ -19,6 +19,7 @@ namespace RigiArcher.Magic{
         private Rigidbody _rigidbody;
         private ApplyGravity _applyGravity;
         public Transform HeadPos => _headPos;
+        public float Length => (_targetPosition - _shooterTransform.position).magnitude;
 
         // data
         private Transform _shooterTransform;

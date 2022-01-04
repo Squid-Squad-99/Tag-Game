@@ -9,6 +9,8 @@ namespace RigiArcher.Magic{
     {
         [Header("Rope Gun Setting")]
         [SerializeField] float _ropeSpeed;
+        public float MaxLength;
+        public float Length => _rope.Length;
 
         [Header("Make")]
         [SerializeField] GameObject _ropePrefab;
@@ -42,6 +44,13 @@ namespace RigiArcher.Magic{
             // magic user left hand aim rope head
             _rigAimManager.Aim(_rope.HeadPos, RigAim.RigAimManager.RigAimIdEnum.LeftHand);
 
+        }
+
+        
+
+        public override void FinishMagic()
+        {
+            
         }
 
         public override void CancelMagic()

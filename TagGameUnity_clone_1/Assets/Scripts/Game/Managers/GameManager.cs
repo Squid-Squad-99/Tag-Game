@@ -19,6 +19,8 @@ public class GameManager : NetworkBehaviour
     
     // state
     public NetworkVariable<int> TimeLeft;
+    public NetworkVariable<int> HumanKillCnt;
+    public NetworkVariable<int> GhostKillCnt;
 
     public event Action StartGameEvent;
     public event Action<GameEndReasonEnum> GameEndEvent;
@@ -26,6 +28,7 @@ public class GameManager : NetworkBehaviour
     public enum GameEndReasonEnum{
         TimeOut,
         CollectEnoughSkullBox,
+        HumanAllDie,
     }
 
     private void Start() {
@@ -42,8 +45,34 @@ public class GameManager : NetworkBehaviour
         // start timer
         StartCoroutine("StartTimer");
 
+        // cnt kill cnt
+        MonitorKillCnt();
+
         // event
         InvokeStartGameEvent();
+    }
+
+    private void MonitorKillCnt()
+    {
+        Debug.Assert(IsServer);
+
+        foreach (var character in CharacterManager.Singleton.Ghostes)
+        {
+            var characterGameState = character.GetComponent<CharacterGameState>();
+            characterGameState.DieEvent += () => HumanKillCnt.Value++;
+        }
+
+        foreach (var character in CharacterManager.Singleton.Humans){
+            var characterGameState = character.GetComponent<CharacterGameState>();
+            characterGameState.DieEvent += () => {
+                GhostKillCnt.Value++;
+                // if all human are killed
+                if(GhostKillCnt.Value == CharacterManager.Singleton.Humans.Count){
+                    GameEnd(GameEndReasonEnum.HumanAllDie);
+                }
+            };
+        }
+        
     }
 
     private IEnumerator StartTimer(){

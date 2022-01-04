@@ -16,9 +16,11 @@ public class PlayerInfoList : MonoBehaviour
         public TextMeshProUGUI RankText; 
         public TextMeshProUGUI UsernameText;
         public Slider HealthSlider;
+        public Image HealthFill;
     }
 
     [SerializeField] List<PlayerInfo> _playerInfos;
+    [SerializeField] Sprite _red, _blue;
 
     public void HookNInitCharacterUI(CharacterObject characterObject, CharacterGameState characterGameState){
         // find player info ui to insert
@@ -33,6 +35,9 @@ public class PlayerInfoList : MonoBehaviour
 
         // set active
         playerInfo.PlayerInfoGameObject.SetActive(true);
+
+        // set fill color
+        playerInfo.HealthFill.sprite = (characterObject.CharacterType == CharacterObject.CharacterTypeEnum.Human)? _blue: _red;
 
         // init
         SetRankText(playerInfo, characterObject);

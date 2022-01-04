@@ -48,6 +48,7 @@ namespace RigiArcher.Magic{
 
         protected abstract void UseMagic();
         public abstract void CancelMagic();
+        public abstract void FinishMagic();
 
         public bool CanCastMagic()
         {

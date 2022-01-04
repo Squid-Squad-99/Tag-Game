@@ -34,7 +34,7 @@ namespace RigiArcher.StateMachineElement{
         // some common reference for state/action to use
         [Header("Common Reference")]
         public Transform VCamTarget;
-        public Animator CharacterAnimator;
+        public NetworkAnimation CharacterAnimator;
 
         protected void Awake() {
             // init variable
@@ -79,6 +79,10 @@ namespace RigiArcher.StateMachineElement{
 
             GameManager.Singleton.StartGameEvent += () => {
                 SwitchState(GameStartState);
+            };
+
+            GameManager.Singleton.GameEndEvent += (reason) => {
+                SwitchState(_states[0]);
             };
 
         }

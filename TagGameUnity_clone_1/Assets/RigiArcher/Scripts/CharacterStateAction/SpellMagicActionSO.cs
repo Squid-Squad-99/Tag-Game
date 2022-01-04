@@ -43,6 +43,11 @@ namespace RigiArcher.CharacterAction
             _characterInputBroadcaster.InputFireEvent.AddListener(OnInputFire);
         }
 
+        public override void Update()
+        {
+
+        }
+
         public override void OnStateExit()
         {
             _characterInputBroadcaster.InputFireEvent.RemoveListener(OnInputFire);

@@ -46,6 +46,7 @@ namespace RigiArcher.Magic{
         private MeshSocketManager _meshSocketManager;
         private CharacterObject _characterObject;
         private RigiArcherObject _rigiArcherObject;
+        private CharacterGameState _characterGameState;
         private Animator _animator;
         private int _leftArmAnimLayerIndex;
         private int _animParamCastMagicId;
@@ -58,6 +59,7 @@ namespace RigiArcher.Magic{
             _animator = GetComponent<Animator>();
             _rigiArcherObject = GetComponent<RigiArcherObject>();
             _characterObject = GetComponent<CharacterObject>();
+            _characterGameState = GetComponent<CharacterGameState>();
             _leftArmAnimLayerIndex = _animator.GetLayerIndex("LeftArm");
             _animParamCastMagicId = Animator.StringToHash("CastMagic");
 
@@ -74,12 +76,11 @@ namespace RigiArcher.Magic{
             Equip(_InitEquippedMagicId);
 
             if(IsServer){
-                GameManager.Singleton.StartGameEvent += () => {
-                    StartCoroutine("ManaCountDown");
-                };
-                GameManager.Singleton.GameEndEvent += (reason) => {
-                    StopCoroutine("ManaCountDown");
-                };
+                GameManager.Singleton.StartGameEvent += () => StartCoroutine("ManaCountDown");
+                GameManager.Singleton.GameEndEvent += (reason) => StopCoroutine("ManaCountDown");
+                
+                _characterGameState.DieEvent += () => StopCoroutine("ManaCountDown");
+                _characterGameState.RebornEvent += () => StartCoroutine("ManaCountDown"); 
             }
         }
 
@@ -146,7 +147,7 @@ namespace RigiArcher.Magic{
             return CurrentEquipedMagic.CanCastMagic() && CurrentMana.Value >= CurrentEquipedMagic.ManaCost;
         }
 
-        public void CancelMagic(){
+        public void     CancelMagic(){
             CurrentEquipedMagic.CancelMagic();
             if(IsServer) NetActionClientRpc(NetActionId.CancelMagic, NetworkManager.Singleton.ServerTime.Time);
         } 

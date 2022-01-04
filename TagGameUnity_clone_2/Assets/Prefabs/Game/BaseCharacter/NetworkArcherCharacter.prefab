@@ -661,7 +661,7 @@ MonoBehaviour:
   Health0State: {fileID: 11400000, guid: 6ccf3815ee258e04c8ffc501b1810066, type: 2}
   _currentStateSO: {fileID: 0}
   VCamTarget: {fileID: 6479672268852053749}
-  CharacterAnimator: {fileID: 1385154636}
+  CharacterAnimator: {fileID: 7855432250776416712}
 --- !u!114 &6479672269097394341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -915,8 +915,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialHealth: 100
+  GhostFrozenTime: 2
   Health:
     m_InternalValue: 100
+  IsDied: 0
+  GhostFrozenTimeDelta:
+    m_InternalValue: 0
 --- !u!114 &1586871291819846302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1190,8 +1194,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 0.12869918, y: 0.20333564, z: 0.85476947}
-  m_Center: {x: 0.000000014901161, y: -0.008698881, z: -0.50062263}
+  m_Size: {x: 0.12869918, y: 0.32448268, z: 0.9916074}
+  m_Center: {x: 0.000000014901161, y: -0.008698881, z: -0.5690415}
 --- !u!1 &8378831522199680318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1404,7 +1408,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: dd0682cd55d7f8342b8026ebb1cfc4a5, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -5716681864270162303, guid: dd0682cd55d7f8342b8026ebb1cfc4a5, type: 3}

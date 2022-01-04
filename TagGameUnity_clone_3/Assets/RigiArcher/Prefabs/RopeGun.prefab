@@ -60,6 +60,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _ropeSpeed: 40
+  MaxLength: 80
   _ropePrefab: {fileID: 7303095770021779588, guid: eefc78936cbb933478443a6c36d59d69, type: 3}
 --- !u!1 &2148897697296496068
 GameObject:

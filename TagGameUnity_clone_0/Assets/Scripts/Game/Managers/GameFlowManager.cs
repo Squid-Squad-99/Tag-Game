@@ -76,6 +76,11 @@ public class GameFlowManager : NetworkBehaviour
         
     }
 
+    private void OnGameOver(GameManager.GameEndReasonEnum reason)
+    {
+        Log("To Game over state");
+    }
+
     /// <summary>
     /// set up (all character ready)
     /// </summary>
@@ -109,6 +114,8 @@ public class GameFlowManager : NetworkBehaviour
     {
         // start game
         GameManager.Singleton.StartGame();
+
+        GameManager.Singleton.GameEndEvent += (reason) => {SetGameState(StateId.GameOver); OnGameOver(reason);};
     }
 
     private void InvokeBeforeStartGameEvent(){

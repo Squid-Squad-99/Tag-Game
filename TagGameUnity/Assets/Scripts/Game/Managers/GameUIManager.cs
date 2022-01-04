@@ -10,6 +10,16 @@ using System;
 
 public class GameUIManager : NetworkBehaviour
 {
+    #region Singleton
+    static public GameUIManager Singleton = null;
+
+    private void Awake() {
+        GameUIManager.Singleton = this;
+    }
+         
+    #endregion
+    // UI animator
+    [SerializeField] Animator _animator;
     // timer
     [SerializeField] TextMeshProUGUI _timerText;
     // skull box
@@ -20,6 +30,9 @@ public class GameUIManager : NetworkBehaviour
     // mana
     [SerializeField] Slider _manaSlider;
     [SerializeField] TextMeshProUGUI _manaText;
+    // kill score
+    [SerializeField] TextMeshProUGUI _HumanKillText;
+    [SerializeField] TextMeshProUGUI _GhostKillText;
 
     private void Start() {
         // hook timer
@@ -28,6 +41,10 @@ public class GameUIManager : NetworkBehaviour
         // hook collected skull box 
         HumanMissionManager.Singleton.Need2CollectCnt.OnValueChanged += (p,n) => {SetCollectedSkullUI();};
         HumanMissionManager.Singleton.CurrentCollectCnt.OnValueChanged += (p,n) => {SetCollectedSkullUI();};
+
+        // hook kill cnt
+        GameManager.Singleton.HumanKillCnt.OnValueChanged += (p,n) => _HumanKillText.text = $"{n}";
+        GameManager.Singleton.GhostKillCnt.OnValueChanged += (p,n) => _GhostKillText.text = $"{n}";
 
 
         // init UI when start game
@@ -38,6 +55,16 @@ public class GameUIManager : NetworkBehaviour
             HookCharacterUI();
             HookManaUI();
         };
+    }
+
+    public void PlayStartGameCutScene(){
+        if(IsServer) return;
+        if(CharacterManager.Singleton.LocalCharacter.CharacterType == CharacterObject.CharacterTypeEnum.Human){
+            _animator.SetBool("HumanStart", true);
+        }
+        else{
+            _animator.SetBool("GhostStart", true);
+        }
     }
 
     private void HookManaUI()

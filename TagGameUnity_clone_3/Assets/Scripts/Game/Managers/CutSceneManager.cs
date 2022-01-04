@@ -32,7 +32,8 @@ public class CutSceneManager : NetworkBehaviour
         {
             case CutSceneId.BeforeStartGame:
                 Debug.Log("[CutSceneManger] Play before start game cut scene");
-                await Task.Delay(2000);
+                GameUIManager.Singleton.PlayStartGameCutScene();
+                await Task.Delay(3700);
                 Debug.Log("[CutSceneManger] Before start game cut scene end");
                 break;
             default:
