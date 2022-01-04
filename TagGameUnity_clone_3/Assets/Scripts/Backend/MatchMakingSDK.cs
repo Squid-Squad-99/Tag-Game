@@ -48,6 +48,8 @@ namespace Tag.Backend{
             // 1. connect to web server tcp socket
 
             // 2. send ticket to server
+            WebSDK.Account account = await WebSDK.GetUserAccount();
+            Ticket ticket = new Ticket(account.UserId, account.Username, 100, GameModeEnum.GrabBall);
 
             // 3. await server give back match info
 

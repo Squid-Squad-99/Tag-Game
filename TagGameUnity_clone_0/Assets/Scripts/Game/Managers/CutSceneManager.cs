@@ -18,7 +18,7 @@ public class CutSceneManager : NetworkBehaviour
 
     public enum CutSceneId{
         BeforeStartGame,
-    }
+    } 
 
     public event Action<CutSceneId> CuteSceneStartEvent;
     public event Action<CutSceneId> CuteSceneEndEvent;

@@ -12,6 +12,7 @@ namespace RigiArcher.StateMachineElement{
         [Tooltip("The first StateSO will be initial state")]
         [SerializeField] List<StateSO> _stateSOs; 
         [SerializeField] StateSO GameStartState;
+        [SerializeField] StateSO GameEndState;
         public StateSO Health0State;
         private List<State> _states;
         private Dictionary<StateSO, State> _stateSO2StateDict;
@@ -82,7 +83,7 @@ namespace RigiArcher.StateMachineElement{
             };
 
             GameManager.Singleton.GameEndEvent += (reason) => {
-                SwitchState(_states[0]);
+                SwitchState(GameEndState);
             };
 
         }

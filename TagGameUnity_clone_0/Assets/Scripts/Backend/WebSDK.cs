@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Tag.Backend{
 
     public class WebSDK
     {
+        static string accessStr;
+        private static readonly HttpClient client = new HttpClient();
+
         /// <summary>
         /// Login with username and password, return whether success login
         /// </summary>
         static public async Task<bool> Login(string username, string password){
             // TODO
             
-            await Task.Delay(1000);
+            await client.GetAsync("https://taggame.dodofk.xyz/auth/jwt/create/");
 
             return true;
         }
@@ -21,8 +25,8 @@ namespace Tag.Backend{
             // TODO
             await Task.Delay(1000);
             Account account = new Account();
-            account.Email = "root@gmail.com";
-            account.Age = 20;
+            account.UserId = 1111;
+            account.Username = "Eason0203";
             return account;
         }
 
@@ -42,8 +46,8 @@ namespace Tag.Backend{
         }
 
         public struct Account{
-            public string Email;
-            public int Age;
+            public ulong UserId;
+            public string Username;
         }
 
         public struct GameStats{

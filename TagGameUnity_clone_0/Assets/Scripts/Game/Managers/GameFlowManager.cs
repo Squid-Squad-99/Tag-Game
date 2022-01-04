@@ -9,6 +9,8 @@ using Ultility.Event;
 using System;
 using System.Threading.Tasks;
 
+using Tag.Game.Managers;
+
 public class GameFlowManager : NetworkBehaviour
 {
     #region Singleton
@@ -32,6 +34,9 @@ public class GameFlowManager : NetworkBehaviour
 
     // state
     [SerializeField] StateId _gameFlowState;
+
+    [Header("Listening Channel")]
+    [SerializeField] SceneEventChannelSO _requestLoadSceneEvent;
 
     private void Start() {
             //only run at server
@@ -78,8 +83,31 @@ public class GameFlowManager : NetworkBehaviour
 
     private void OnGameOver(GameManager.GameEndReasonEnum reason)
     {
+        Debug.Assert(IsServer);
         Log("To Game over state");
+
+        // show game result
+        GameUIManager.Singleton.ShowGameResult(reason);
+
     }
+
+    public void OnContinueButtonClick(){
+        // clean up managers
+
+        // change to home scene
+
+    }
+
+    private void GameOverCleanUp()
+    {
+        Debug.Assert(IsClient);
+        
+        Destroy(NetworkManager.Singleton.gameObject);
+        Destroy(PlayerManager.Singleton.gameObject);
+
+        Log("Clean up Managers");
+    }
+
 
     /// <summary>
     /// set up (all character ready)

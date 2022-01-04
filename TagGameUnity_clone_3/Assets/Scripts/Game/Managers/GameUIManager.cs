@@ -33,6 +33,16 @@ public class GameUIManager : NetworkBehaviour
     // kill score
     [SerializeField] TextMeshProUGUI _HumanKillText;
     [SerializeField] TextMeshProUGUI _GhostKillText;
+    // game result
+    [SerializeField] GameObject ResultPage;
+    [SerializeField] TextMeshProUGUI _dealDamage;
+    [SerializeField] GameObject _redResult;
+    [SerializeField] TextMeshProUGUI _redReasonText;
+    [SerializeField] GameObject _blueResult;
+    [SerializeField] TextMeshProUGUI _blueReasonText;
+    [SerializeField] string TimoutReason;
+    [SerializeField] string KillAllHumanReason;
+    [SerializeField] string CollectAllSkullBoxReason;
 
     private void Start() {
         // hook timer
@@ -56,6 +66,40 @@ public class GameUIManager : NetworkBehaviour
             HookManaUI();
         };
     }
+
+    public void ShowGameResult(GameManager.GameEndReasonEnum gameEndReason){
+        Debug.Assert(IsServer);
+        ShowGameResult_Logic(gameEndReason);
+        ShowGameResulTClientRpc(gameEndReason);
+    }
+
+    [ClientRpc]
+    private void ShowGameResulTClientRpc(GameManager.GameEndReasonEnum gameEndReason){
+        ShowGameResult_Logic(gameEndReason);
+    }
+
+    private void ShowGameResult_Logic(GameManager.GameEndReasonEnum gameEndReason){
+        // enable result page
+        ResultPage.SetActive(true);
+        // set title
+        switch(gameEndReason){
+            case GameManager.GameEndReasonEnum.TimeOut:
+            _blueResult.SetActive(true);
+            _blueReasonText.text = TimoutReason;
+            break;
+            case GameManager.GameEndReasonEnum.CollectEnoughSkullBox:
+            _blueResult.SetActive(true);
+            _blueReasonText.text = CollectAllSkullBoxReason;
+            break;
+            case GameManager.GameEndReasonEnum.HumanAllDie:
+            _redResult.SetActive(true);
+            _redReasonText.text = KillAllHumanReason;   
+            break;
+        }
+        // set stats
+        _dealDamage.text = $"{HitManager.Singleton.LocalCharacterDealDamage}";
+    }
+
 
     public void PlayStartGameCutScene(){
         if(IsServer) return;

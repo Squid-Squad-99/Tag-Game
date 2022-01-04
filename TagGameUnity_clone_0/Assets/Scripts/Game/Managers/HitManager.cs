@@ -14,6 +14,8 @@ public class HitManager : NetworkBehaviour
     }
     #endregion
 
+    public int LocalCharacterDealDamage = 0;
+
     public void HitHandle(CharacterObject attackter, CharacterObject victim){
         if(IsServer){
             // deal damage
@@ -21,6 +23,10 @@ public class HitManager : NetworkBehaviour
             victim.GetComponent<IDamagable>().TakeDamage(power);
 
             // visual effect
+        }
+
+        if(IsClient && attackter == CharacterManager.Singleton.LocalCharacter){
+            LocalCharacterDealDamage += attackter.GetComponent<IAttacker>().Power;
         }
     }
 }

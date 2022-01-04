@@ -181,7 +181,7 @@ PrefabInstance:
     - target: {fileID: 3152741606260508951, guid: 99331c3f2bbe9af4cb4faf8b2bdeb163, type: 3}
       propertyPath: BootingSceneSO
       value: 
-      objectReference: {fileID: 11400000, guid: ea352aca22c877248a64f11b81948c4b, type: 2}
+      objectReference: {fileID: 11400000, guid: 26d4a815c3033ac4786005fff4fc121e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99331c3f2bbe9af4cb4faf8b2bdeb163, type: 3}
 --- !u!1 &631579334

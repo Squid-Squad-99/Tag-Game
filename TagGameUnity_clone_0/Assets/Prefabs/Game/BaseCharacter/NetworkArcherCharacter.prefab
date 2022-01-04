@@ -657,7 +657,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 82282acb8f3dd244cacd70e74004c1b0, type: 2}
   - {fileID: 11400000, guid: 6b13e224a8a29e54fa3d0dd2195c3344, type: 2}
   - {fileID: 11400000, guid: 6ccf3815ee258e04c8ffc501b1810066, type: 2}
+  - {fileID: 11400000, guid: bcb12a8db63aac94983a0ca64f5e0ae8, type: 2}
   GameStartState: {fileID: 11400000, guid: ce11dcb91f125da49a76416c5c1c80b9, type: 2}
+  GameEndState: {fileID: 11400000, guid: bcb12a8db63aac94983a0ca64f5e0ae8, type: 2}
   Health0State: {fileID: 11400000, guid: 6ccf3815ee258e04c8ffc501b1810066, type: 2}
   _currentStateSO: {fileID: 0}
   VCamTarget: {fileID: 6479672268852053749}
