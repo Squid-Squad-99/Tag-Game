@@ -64,6 +64,20 @@ public class GameUIManager : NetworkBehaviour
             // hook character UI
             HookCharacterUI();
             HookManaUI();
+
+            if(IsClient) HookGhostDiePlayCountDown();
+        };
+
+        
+    }
+
+    private void HookGhostDiePlayCountDown()
+    {
+        CharacterManager.Singleton.LocalCharacter.GetComponent<CharacterGameState>().DieEvent += () => {
+            if(CharacterManager.Singleton.LocalCharacter.CharacterType == CharacterObject.CharacterTypeEnum.Ghost){
+                // play count down
+                _animator.Play("GhostDie");
+            }
         };
     }
 

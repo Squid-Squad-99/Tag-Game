@@ -28,7 +28,7 @@ namespace Ultility.ArgParser{
             if(ArgDict.ContainsKey(key) == false){
                 Debug.LogError($"[ArgParserSO] arg {key} isn't in AddArg");
             }
-
+            Debug.Log($"Get Arg {ArgDict[key]}");
             return ArgDict[key];
         }
 
@@ -38,18 +38,27 @@ namespace Ultility.ArgParser{
 
         private void Init()
         {
-            if(_argDict != null) return;
-            List<string> arguments = new List<string>(Environment.GetCommandLineArgs());
-            arguments.RemoveAt(0);
-            if(Application.isEditor) arguments = EditorModeArgs;
-            _argDict = new Dictionary<string, string>();
-            for(int i = 0; i < AddArgList.Count; i++){
-                if(i >= arguments.Count){
-                _argDict.Add(AddArgList[i], null);
+            if(Application.isEditor){
+                if(_argDict != null) return;
+                List<string> arguments = new List<string>(Environment.GetCommandLineArgs());
+                arguments.RemoveAt(0);
+                if(Application.isEditor) arguments = EditorModeArgs;
+                _argDict = new Dictionary<string, string>();
+                for(int i = 0; i < AddArgList.Count; i++){
+                    if(i >= arguments.Count){
+                    _argDict.Add(AddArgList[i], null);
+                    }
+                    else{
+                        _argDict.Add(AddArgList[i], arguments[i]);
+                    }
                 }
-                else{
-                    _argDict.Add(AddArgList[i], arguments[i]);
-                }
+
+            }
+            else{
+                _argDict = new Dictionary<string, string>();
+                _argDict.Add("gameServerId", "0");
+                _argDict.Add("port", "7777");
+                _argDict.Add("gameMode", "0");
             }
         }
 

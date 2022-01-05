@@ -155,10 +155,13 @@ namespace Tag.Game.Managers{
         public ulong ClientId; 
         public string Username;
         public int Rank;
+        public MatchMakingSDK.CharacterTypeEnum CharacterType;
+
         public PlayerConfig(ulong clientId, MatchMakingSDK.Ticket ticket){
             ClientId = clientId;
             Username = ticket.Username;
             Rank = ticket.Rank;
+            CharacterType = ticket.CharacterType;
         }
     }
 

@@ -15,15 +15,11 @@ public class CharacterSpawnManager : MonoBehaviour
         [SerializeField] Transform _humanPositions; 
         [SerializeField] Transform _ghostPositions; 
 
-        [Header("Debug setting")]
-        [SerializeField] int _ghostCnt = 1;
-        
     public void SpawnCharacters(){
 
         var humanPosIter = _humanPositions.GetEnumerator();
         var ghostPosIter = _ghostPositions.GetEnumerator();
 
-        int i = 0;
         foreach (ulong userId in PlayerManager.Singleton.Players)
         {
             // get this user player config
@@ -35,11 +31,10 @@ public class CharacterSpawnManager : MonoBehaviour
 
             // spawn character
             GameObject logic;
-            if(i < _ghostCnt){
+            if(playerConfig.CharacterType == Tag.Backend.MatchMakingSDK.CharacterTypeEnum.Ghost){
                 ghostPosIter.MoveNext();
                 Transform spawnPoint = (Transform)ghostPosIter.Current;
                 logic = Instantiate(_GhostcharacterPrefab, spawnPoint.position, spawnPoint.rotation);
-                i++;
             }
             else{
                 humanPosIter.MoveNext();
