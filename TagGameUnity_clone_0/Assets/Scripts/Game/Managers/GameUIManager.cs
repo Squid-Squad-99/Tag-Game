@@ -84,7 +84,7 @@ public class GameUIManager : NetworkBehaviour
         // set title
         switch(gameEndReason){
             case GameManager.GameEndReasonEnum.TimeOut:
-            _blueResult.SetActive(true);
+            _redResult.SetActive(true);
             _blueReasonText.text = TimoutReason;
             break;
             case GameManager.GameEndReasonEnum.CollectEnoughSkullBox:

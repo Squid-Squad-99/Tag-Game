@@ -6624,10 +6624,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
   m_PivotOffset: {x: 0, y: 0, z: 1}
-  m_AmplitudeGain: 0.5
-  m_FrequencyGain: 0.3
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 5
   mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!114 &525201401
 MonoBehaviour:
@@ -29915,7 +29915,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _AllClientLoadSceneEvent: {fileID: 11400000, guid: 4d5b1d2d41977d44293ef1e5c336820c, type: 2}
   _gameFlowState: 0
-  _requestLoadSceneEvent: {fileID: 0}
+  _requestLoadSceneEvent: {fileID: 11400000, guid: 540db4a33a969fc4bba906bd86c26654, type: 2}
+  _continueButton: {fileID: 1672938524}
+  _userHomeScene: {fileID: 11400000, guid: deef0ed733817e64980e3a26d2352342, type: 2}
 --- !u!4 &1365012321
 Transform:
   m_ObjectHideFlags: 0
@@ -30015,8 +30017,8 @@ MonoBehaviour:
   _blueResult: {fileID: 1865913672}
   _blueReasonText: {fileID: 1865913671}
   TimoutReason: Time Out
-  KillAllHumanReason: Kill All Human
-  CollectAllSkullBoxReason: Collect All Skull Box
+  KillAllHumanReason: Kill All Theif
+  CollectAllSkullBoxReason: Theif Collect All Skull Box
 --- !u!114 &1365012327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31036,6 +31038,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1630475983}
   m_CullTransparentMesh: 0
+--- !u!114 &1672938524 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3305201122480392573, guid: aa27390216c3a4dd89ce5cf5ad82da72, type: 3}
+  m_PrefabInstance: {fileID: 408739888}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1686262933
 GameObject:
   m_ObjectHideFlags: 0

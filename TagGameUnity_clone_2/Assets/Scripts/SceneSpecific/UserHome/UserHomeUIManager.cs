@@ -23,6 +23,8 @@ public class UserHomeUIManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI _usernameText;
 
+    public WebSDK.Account Account;
+
 
     public MatchMakingSDK.CharacterTypeEnum ChoosedCharacter = MatchMakingSDK.CharacterTypeEnum.Human;
     public bool IsFindingMatch = false;
@@ -34,8 +36,8 @@ public class UserHomeUIManager : MonoBehaviour
         _switchButton.onClick.AddListener(OnSwitch);
 
         // set ui
-        var account = await WebSDK.GetUserAccount();
-        _usernameText.text = account.Username;
+        Account = await WebSDK.GetUserAccount();
+        _usernameText.text = Account.Username;
     }
 
     private void OnSwitch()
@@ -56,7 +58,7 @@ public class UserHomeUIManager : MonoBehaviour
         }
     }   
 
-    private async void OnBattleButtonClick(){
+    private void OnBattleButtonClick(){
         // set state
         IsFindingMatch = true;
 
@@ -66,7 +68,7 @@ public class UserHomeUIManager : MonoBehaviour
         _battleButton.gameObject.SetActive(false);
 
         // start finding match
-        await MatchMakingManager.Singleton.FindMatch();
+        MatchMakingManager.Singleton.FindMatch();
 
     }
 }

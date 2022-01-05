@@ -6,10 +6,12 @@ using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
 using Ultility.Event;
+using Ultility.Scene;
 using System;
 using System.Threading.Tasks;
 
 using Tag.Game.Managers;
+using UnityEngine.UI;
 
 public class GameFlowManager : NetworkBehaviour
 {
@@ -35,8 +37,12 @@ public class GameFlowManager : NetworkBehaviour
     // state
     [SerializeField] StateId _gameFlowState;
 
-    [Header("Listening Channel")]
+    [Header("Broad Channel")]
     [SerializeField] SceneEventChannelSO _requestLoadSceneEvent;
+
+    [Header("Reference")]
+    [SerializeField] Button _continueButton;
+    [SerializeField] SceneSO _userHomeScene;
 
     private void Start() {
             //only run at server
@@ -59,6 +65,9 @@ public class GameFlowManager : NetworkBehaviour
             };
 
             _AllClientLoadSceneEvent.OnEventRaised += SpawnPlayersCharacter;
+
+            // hook button
+            _continueButton.onClick.AddListener(OnContinueButtonClick);
     }
 
     private void SetGameState(StateId gameState){
@@ -93,8 +102,10 @@ public class GameFlowManager : NetworkBehaviour
 
     public void OnContinueButtonClick(){
         // clean up managers
+        
 
         // change to home scene
+        _requestLoadSceneEvent.RaiseEvent(_userHomeScene);
 
     }
 

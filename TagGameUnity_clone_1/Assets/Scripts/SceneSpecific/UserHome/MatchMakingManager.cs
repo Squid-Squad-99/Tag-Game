@@ -32,7 +32,7 @@ public class MatchMakingManager : MonoBehaviour
     }
 
 
-    public async Task FindMatch(){
+    public async void FindMatch(){
         // TODO: changable game mode
         MatchMakingSDK.GameModeEnum gameMode = MatchMakingSDK.GameModeEnum.GrabBall;
 

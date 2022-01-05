@@ -1521,7 +1521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _matchInfo: {fileID: 11400000, guid: 462708fa03b3a1944ad3b1092b6bc5ad, type: 2}
   _gameClientBootScene: {fileID: 11400000, guid: ea352aca22c877248a64f11b81948c4b, type: 2}
-  _haveFindMatchChannel: {fileID: 0}
+  _haveFindMatchChannel: {fileID: 11400000, guid: 3526f0252042ef746b1a1d9946e60838, type: 2}
   _requestLoadSceneChannel: {fileID: 11400000, guid: 540db4a33a969fc4bba906bd86c26654, type: 2}
 --- !u!4 &188262038
 Transform:
