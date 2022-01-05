@@ -11,13 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameBootScene.unity
     guid: 38c2a5f6047e2164d9b2019f4df38be0
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/UserHomeScene.unity
     guid: 68475b7dd2acbe445935bb751a1ec30a
   - enabled: 1
     path: Assets/Scenes/GrabBallGameScene.unity
     guid: 1a70951405b15494dae2aa07d1bdd532
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/TitleScene.unity
     guid: df41e7ef8668c3a4cb809f12a600088c
   m_configObjects: {}

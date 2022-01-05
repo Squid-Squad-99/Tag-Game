@@ -109,11 +109,11 @@ namespace Tag.Backend{
         static public Dictionary<string, Ticket> Auth2Ticket;
         static public bool Connected = false;
         static public async Task<Dictionary<string, Ticket>> GetAuthIdToTicketDict(string gameServerId){
-            await Task.Delay(1000);
-            var dic = new Dictionary<string, Ticket>();
-            dic.Add("0001", new Ticket(1111,"Player1", 942, GameModeEnum.GrabBall, CharacterTypeEnum.Human)); 
-            dic.Add("0002", new Ticket(2222, "Player2", 455, GameModeEnum.GrabBall, CharacterTypeEnum.Ghost)); 
-            return dic;
+            // await Task.Delay(1000);
+            // var dic = new Dictionary<string, Ticket>();
+            // dic.Add("0001", new Ticket(1111,"Player1", 942, GameModeEnum.GrabBall, CharacterTypeEnum.Human)); 
+            // dic.Add("0002", new Ticket(2222, "Player2", 455, GameModeEnum.GrabBall, CharacterTypeEnum.Ghost)); 
+            // return dic;
 
             while(Connected == true){
                 await Task.Delay(1000);

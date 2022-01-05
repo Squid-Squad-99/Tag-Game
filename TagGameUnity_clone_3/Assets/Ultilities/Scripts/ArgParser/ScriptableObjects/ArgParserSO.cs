@@ -38,7 +38,7 @@ namespace Ultility.ArgParser{
 
         private void Init()
         {
-            if(Application.isEditor){
+            // if(Application.isEditor){
                 if(_argDict != null) return;
                 List<string> arguments = new List<string>(Environment.GetCommandLineArgs());
                 arguments.RemoveAt(0);
@@ -46,20 +46,20 @@ namespace Ultility.ArgParser{
                 _argDict = new Dictionary<string, string>();
                 for(int i = 0; i < AddArgList.Count; i++){
                     if(i >= arguments.Count){
-                    _argDict.Add(AddArgList[i], null);
+                    _argDict.Add(AddArgList[i], "-1");
                     }
                     else{
                         _argDict.Add(AddArgList[i], arguments[i]);
                     }
                 }
 
-            }
-            else{
-                _argDict = new Dictionary<string, string>();
-                _argDict.Add("gameServerId", "0");
-                _argDict.Add("port", "7777");
-                _argDict.Add("gameMode", "0");
-            }
+            // }
+            // else{
+            //     _argDict = new Dictionary<string, string>();
+            //     _argDict.Add("gameServerId", "0");
+            //     _argDict.Add("port", "7777");
+            //     _argDict.Add("gameMode", "0");
+            // }
         }
 
     }
