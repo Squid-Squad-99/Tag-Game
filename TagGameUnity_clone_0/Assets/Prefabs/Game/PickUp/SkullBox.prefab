@@ -14635,7 +14635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PickUpId: 0
-  WhoCanPickUp: 0200000001000000
+  WhoCanPickUp: 01000000
   PickUpVFX: {fileID: 5344102061253048818, guid: 26ef237f15b5f394abba5bef22d3256c, type: 3}
 --- !u!114 &-1885297723828244937
 MonoBehaviour:

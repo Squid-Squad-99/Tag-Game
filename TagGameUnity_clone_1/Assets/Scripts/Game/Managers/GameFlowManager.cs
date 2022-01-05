@@ -45,6 +45,11 @@ public class GameFlowManager : NetworkBehaviour
     [SerializeField] SceneSO _userHomeScene;
 
     private void Start() {
+            if(IsClient){
+                // hook buttononClick);
+                _continueButton.onClick.AddListener(OnContinueButtonClick);
+            }
+
             //only run at server
             if(NetworkManager.Singleton == null || NetworkManager.Singleton.IsServer == false) return;
 
@@ -66,8 +71,6 @@ public class GameFlowManager : NetworkBehaviour
 
             _AllClientLoadSceneEvent.OnEventRaised += SpawnPlayersCharacter;
 
-            // hook button
-            _continueButton.onClick.AddListener(OnContinueButtonClick);
     }
 
     private void SetGameState(StateId gameState){
@@ -101,8 +104,11 @@ public class GameFlowManager : NetworkBehaviour
     }
 
     public void OnContinueButtonClick(){
+
+        Debug.Log("Continue button click");
         // clean up managers
-        
+        Destroy(PlayerManager.Singleton.gameObject);
+        Destroy(NetworkManager.Singleton.gameObject);
 
         // change to home scene
         _requestLoadSceneEvent.RaiseEvent(_userHomeScene);
